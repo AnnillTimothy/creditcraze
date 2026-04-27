@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Site Settings — Admin{% endblock %}
+
+{% block content %}
+<div class="dash-layout">
+  <div class="dash-sidebar">
+    <div style="font-family:var(--font-head);font-weight:800;font-size:1rem;margin-bottom:1.5rem;color:var(--text-subtle);">ADMIN</div>
+    <a href="{{ url_for('dashboard') }}" class="dash-nav__item"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="{{ url_for('dashboard_add_card') }}" class="dash-nav__item"><i class="bi bi-credit-card-2-front"></i> Add Card</a>
+    <a href="{{ url_for('dashboard_add_post') }}" class="dash-nav__item"><i class="bi bi-pencil-square"></i> Add Post</a>
+    <a href="{{ url_for('dashboard_settings') }}" class="dash-nav__item active"><i class="bi bi-gear"></i> Site Settings</a>
+    <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+      <a href="{{ url_for('home') }}" class="dash-nav__item"><i class="bi bi-house"></i> View Site</a>
+    </div>
+  </div>
+
+  <div class="dash-main">
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <a href="{{ url_for('dashboard') }}" style="color:var(--text-muted);"><i class="bi bi-arrow-left"></i></a>
+      <h2 style="font-weight:900;margin:0;">Site Settings</h2>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+      {{ form.csrf_token }}
+
+      <div class="form-section">
+        <div class="form-section__title">Branding</div>
+        <div class="row gy-3">
+          <div class="col-12 col-md-6">
+            {{ form.site_name.label }}{{ form.site_name(class="form-control", placeholder="CreditCraze") }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.logo.label }}{{ form.logo(class="form-control") }}
+            {% if settings and settings.logo_filename %}
+            <small style="color:var(--text-subtle);font-size:0.7rem;">Current: {{ settings.logo_filename }}</small>
+            {% endif %}
+          </div>
+          <div class="col-12">
+            {{ form.footer_tagline.label }}{{ form.footer_tagline(class="form-control", placeholder="Your AI-powered guide to smarter credit.") }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Contact Information</div>
+        <div class="row gy-3">
+          <div class="col-12 col-md-4">{{ form.contact_email.label }}{{ form.contact_email(class="form-control") }}</div>
+          <div class="col-12 col-md-4">{{ form.contact_phone.label }}{{ form.contact_phone(class="form-control") }}</div>
+          <div class="col-12 col-md-4">{{ form.contact_address.label }}{{ form.contact_address(class="form-control") }}</div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Social Media</div>
+        <div class="row gy-3">
+          <div class="col-12 col-md-4">{{ form.facebook_url.label }}{{ form.facebook_url(class="form-control", placeholder="https://facebook.com/...") }}</div>
+          <div class="col-12 col-md-4">{{ form.twitter_url.label }}{{ form.twitter_url(class="form-control", placeholder="https://twitter.com/...") }}</div>
+          <div class="col-12 col-md-4">{{ form.instagram_url.label }}{{ form.instagram_url(class="form-control", placeholder="https://instagram.com/...") }}</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-glow">
+        <i class="bi bi-check-lg"></i> Save Settings
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

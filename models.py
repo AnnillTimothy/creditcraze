@@ -2,16 +2,17 @@ from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
 
+
 class CreditCard(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     # Core Info
     name = db.Column(db.String(100), nullable=False)
-    banks = db.Column(db.String(255), nullable=False, default='Unknown')  # allows multiple banks in one string (comma-separated)
+    banks = db.Column(db.String(255), nullable=False, default='Unknown')
     card_type = db.Column(db.String(50), nullable=False)
 
     # Financial Details
-    interest_rate = db.Column(db.String(50)) # either a percentage or the string "Personalised"
+    interest_rate = db.Column(db.String(50))
     interest_free_days = db.Column(db.Integer)
     monthly_fee = db.Column(db.Float)
     annual_fee = db.Column(db.Float)
@@ -24,32 +25,28 @@ class CreditCard(db.Model):
     travel_features = db.Column(db.String(255))
     lifestyle_features = db.Column(db.String(255))
     insurance = db.Column(db.String(255))
-    discounts = db.Column(db.String(255)) 
+    discounts = db.Column(db.String(255))
 
     # Educational / Transparency
-    requirements = db.Column(db.String(255)) 
-    benefits = db.Column(db.String(255)) # is this not also pros? if not  then cool....
-    risks = db.Column(db.String(255)) # redundant, credit card risks? Make it make sense
+    requirements = db.Column(db.String(255))
+    benefits = db.Column(db.String(255))
+    risks = db.Column(db.String(255))
     pros = db.Column(db.String(255))
     cons = db.Column(db.String(255))
 
     # Categories, Tiering, and Metadata
     categories = db.Column(db.String(255))
     tier = db.Column(db.String(50))
-    ai_summary = db.Column(db.Text)          # incorrect addition, should be generated after, right on page based on table data
-    ai_confidence = db.Column(db.Float)      # incorrect addition, should be generated after on page, based on table data
     is_featured = db.Column(db.Boolean, default=False)
 
     # Media & Links
     photo = db.Column(db.String(255))
-    brochure_link = db.Column(db.String(255)) # incorrect addition, should be apply now button
+    brochure_link = db.Column(db.String(255))  # used as "Apply Now" URL
 
     def bank_list(self):
-        """Return list of banks if multiple are stored comma-separated."""
         return [b.strip() for b in self.banks.split(',')] if self.banks else []
 
     def category_list(self):
-        """Return list of categories if multiple are stored comma-separated."""
         return [c.strip() for c in self.categories.split(',')] if self.categories else []
 
 
@@ -64,3 +61,16 @@ class BlogPost(db.Model):
     img1 = db.Column(db.String(255))
     img2 = db.Column(db.String(255))
     img3 = db.Column(db.String(255))
+
+
+class SiteSettings(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    site_name = db.Column(db.String(100), default='CreditCraze')
+    logo_filename = db.Column(db.String(255))
+    contact_email = db.Column(db.String(100))
+    contact_phone = db.Column(db.String(50))
+    contact_address = db.Column(db.String(255))
+    facebook_url = db.Column(db.String(255))
+    twitter_url = db.Column(db.String(255))
+    instagram_url = db.Column(db.String(255))
+    footer_tagline = db.Column(db.String(255), default='Your AI-powered credit card companion.')

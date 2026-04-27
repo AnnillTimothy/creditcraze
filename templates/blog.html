@@ -1,82 +1,47 @@
-<!-- required meta -->{% extends "base.html" %}
-
+{% extends "base.html" %}
+{% block title %}News &amp; Insights — CreditCraze{% endblock %}
 {% block content %}
 
-<!-- Banner Start -->
-<section class="banner">
-    <div class="container">
-        <div class="row gy-4 align-items-center">
-            <div class="col-12 col-sm-6">
-                <div class="banner__content">
-                    <h1 class="banner__title display-4">News</h1>
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">News</li>
-                        </ol>
-                    </nav>
-                </div>
-            </div>
-            <div class="col-12 col-sm-6 text-end">
-                <img src="{{ url_for('static', filename='images/blog_banner.png') }}" alt="Blog Banner" class="img-fluid" style="max-height: 20vh;">
-            </div>
-        </div>
+<div class="page-banner">
+  <div class="container">
+    <h1 class="page-banner__title fade-up">News &amp; <span class="text-gradient">Insights</span></h1>
+    <div class="page-banner__breadcrumb">
+      <a href="{{ url_for('home') }}">Home</a>
+      <span class="sep"><i class="bi bi-chevron-right"></i></span>
+      <span>News</span>
     </div>
-</section>
-<!-- Banner End -->
+  </div>
+</div>
 
-
-<!-- Blog Section Start -->
-<section class="blog section">
-    <div class="container">
-        <div class="row gy-5 gy-lg-0">
-
-            <!-- Main Blog Posts -->
-            <div class="col-12 col-lg-7 col-xl-8">
-                <div class="row g-4">
-
-                    {% for post in blog_posts %}
-                    <div class="col-12 col-xl-6">
-                        <div class="card card--secondary">
-                            <a href="{{ url_for('blog_details', post_id=post.id) }}" class="card--secondary__thumb zoom_effect">
-                                <img src="{{ url_for('static', filename='uploads/' ~ post.image) }}" alt="{{ post.title }}">
-                            </a>
-
-                            <div class="card--secondary__content">
-
-                                <p class="card--secondary__time mb-3">
-                                    <span class="gap-6"><i class="bi bi-person-circle"></i> {{ post.author or 'Admin' }}</span>
-                                    <i class="bi bi-dot"></i>
-                                    <span class="gap-6"><i class="bi bi-calendar3"></i> {{ post.date_posted.strftime('%d %b, %Y') }}</span>
-                                </p>
-
-                                <h4>
-                                    <a href="{{ url_for('blog_details', post_id=post.id) }}">{{ post.title }}</a>
-                                </h4>
-
-                                <p class="mt-3">{{ post.summary }}</p>
-
-                                <a href="{{ url_for('blog_details', post_id=post.id) }}" class="mt_32 read_more">
-                                    Read More <i class="bi bi-arrow-right"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-
-                </div>
-            </div>
-
-            <!-- Sidebar -->
-            <div class="col-12 col-lg-5 col-xl-4">
-
-                {% include "sidebar.html" %}
-
-            </div>
-
+<section class="section">
+  <div class="container">
+    {% if posts %}
+    <div class="row gy-4 stagger-group">
+      {% for post in posts %}
+      <div class="col-12 col-md-6 col-lg-4 stagger-item">
+        <div class="post-card">
+          <div class="post-card__image"><i class="bi bi-newspaper"></i></div>
+          <div class="post-card__body">
+            <div class="post-card__category">{{ post.category }}</div>
+            <h5 class="post-card__title">{{ post.title }}</h5>
+            <p class="post-card__intro">{{ post.introduction or post.subtitle or '' }}</p>
+          </div>
+          <div class="post-card__footer">
+            <a href="{{ url_for('article', post_id=post.id) }}" class="btn-sm-glow">
+              Read <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
         </div>
+      </div>
+      {% endfor %}
     </div>
+    {% else %}
+    <div class="text-center py-5" style="color:var(--text-muted);">
+      <i class="bi bi-newspaper" style="font-size:3rem;opacity:0.2;display:block;margin-bottom:1rem;"></i>
+      <h5>No news yet</h5>
+    </div>
+    {% endif %}
+  </div>
 </section>
-<!-- Blog Section End -->
 
 {% endblock %}

@@ -1,7 +1,0 @@
-{% extends "base.html" %}
-
-{% block content %}
-    <h2>{{ blog_post.title }}</h2>
-    {{ blog_post.content }}
-    <a href="{{ url_for('articles') }}" class="btn_theme">Back to Blog Posts</a>
-{% endblock %}

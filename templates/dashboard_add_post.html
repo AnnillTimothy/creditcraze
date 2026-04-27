@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Add Post — Admin{% endblock %}
+
+{% block extra_css %}
+{{ ckeditor.load() }}
+{% endblock %}
+
+{% block content %}
+<div class="dash-layout">
+  <div class="dash-sidebar">
+    <div style="font-family:var(--font-head);font-weight:800;font-size:1rem;margin-bottom:1.5rem;color:var(--text-subtle);">ADMIN</div>
+    <a href="{{ url_for('dashboard') }}" class="dash-nav__item"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="{{ url_for('dashboard_add_card') }}" class="dash-nav__item"><i class="bi bi-credit-card-2-front"></i> Add Card</a>
+    <a href="{{ url_for('dashboard_add_post') }}" class="dash-nav__item active"><i class="bi bi-pencil-square"></i> Add Post</a>
+    <a href="{{ url_for('dashboard_settings') }}" class="dash-nav__item"><i class="bi bi-gear"></i> Site Settings</a>
+    <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+      <a href="{{ url_for('home') }}" class="dash-nav__item"><i class="bi bi-house"></i> View Site</a>
+    </div>
+  </div>
+
+  <div class="dash-main">
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <a href="{{ url_for('dashboard') }}" style="color:var(--text-muted);"><i class="bi bi-arrow-left"></i></a>
+      <h2 style="font-weight:900;margin:0;">Publish New Article</h2>
+    </div>
+
+    <form method="POST" enctype="multipart/form-data">
+      {{ form.csrf_token }}
+
+      <div class="form-section">
+        <div class="form-section__title">Post Info</div>
+        <div class="row gy-3">
+          <div class="col-12">
+            {{ form.title.label }}{{ form.title(class="form-control", placeholder="Article title") }}
+          </div>
+          <div class="col-12 col-md-8">
+            {{ form.subtitle.label }}{{ form.subtitle(class="form-control", placeholder="Short subtitle") }}
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.category.label }}{{ form.category(class="form-select") }}
+          </div>
+          <div class="col-12 col-md-8">
+            {{ form.introduction.label }}{{ form.introduction(class="form-control", placeholder="Brief intro / excerpt (shown in cards)") }}
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.slug.label }}{{ form.slug(class="form-control", placeholder="auto-generated if left blank") }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Content</div>
+        {{ form.content.label }}
+        {{ form.content(class="form-control") }}
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Images (optional)</div>
+        <div class="row gy-3">
+          <div class="col-12 col-md-4">{{ form.img1.label }}{{ form.img1(class="form-control") }}</div>
+          <div class="col-12 col-md-4">{{ form.img2.label }}{{ form.img2(class="form-control") }}</div>
+          <div class="col-12 col-md-4">{{ form.img3.label }}{{ form.img3(class="form-control") }}</div>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn-glow"><i class="bi bi-send"></i> Publish</button>
+        <a href="{{ url_for('dashboard') }}" class="btn-outline-glow">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+{% endblock %}
