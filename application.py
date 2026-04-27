@@ -140,8 +140,8 @@ def call_ai(messages, max_tokens=350):
                 max_tokens=max_tokens,
             )
             return resp.choices[0].message.content
-        except Exception as e:
-            return f"Credibot error: {e}"
+        except Exception:
+            return "Credibot encountered an error. Please try again."
 
     return "Credibot is temporarily unavailable — no AI API key is configured."
 
