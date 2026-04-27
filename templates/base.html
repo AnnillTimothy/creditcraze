@@ -1,0 +1,250 @@
+{% set banks = banks or [] %}
+{% set categories = categories or [] %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
+
+    <title>CreditCraze - Smart Credit, Powered by AI</title>
+    <meta name="keywords" content="CreditCraze, Financial, credit cards, credit card reviews and Comparison">
+    <meta name="description" content="CreditCraze Credit Card Reviews">
+
+    <!-- CSS deps -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/nice-select/css/nice-select.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/magnific-popup/css/magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/slick/css/slick.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/odometer/css/odometer.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='vendor/animate/animate.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="preloader"><span class="loader"></span></div>
+
+    <!-- HEADER -->
+    <header class="header-section index">
+        <div class="container">
+            <nav class="navbar navbar-expand-xl nav-shadow">
+
+                <a class="navbar-brand" href="{{ url_for('home') }}">
+                    <img src="{{ url_for('static', filename='images/logo.png') }}" class="logo" alt="logo">
+                </a>
+
+                <a class="navbar-toggler" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight">
+                    <i class="bi bi-list"></i>
+                </a>
+
+                <div class="collapse navbar-collapse ms-auto" id="navbar-content">
+                    <div class="main-menu index-page">
+
+                        <ul class="navbar-nav mb-lg-0 mx-auto">
+
+                            <!-- CARD COMPARE -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ url_for('compare') }}">Card Compare™</a>
+                            </li>
+
+                            <!-- CATEGORY (dynamic) -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Card Category</a>
+                                <ul class="dropdown-menu">
+                                    {% for c in categories %}
+                                    <li><a class="dropdown-item" href="{{ url_for('cardreviews') }}?category={{ c }}">{{ c }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+
+                            <!-- BANK (dynamic) -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Card Issuer</a>
+                                <ul class="dropdown-menu">
+                                    {% for b in banks %}
+                                    <li><a class="dropdown-item" href="{{ url_for('cardreviews') }}?bank={{ b }}">{{ b }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+
+                            <!-- RESOURCES -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Credit Resources</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ url_for('compare') }}">Card Compare™</a></li> <!--Should actually be CardMatch. CardMatch and Credit Compare are two different aspects of the site. We should really at least do the routing and template language the next time this gets runned -->
+                                    <li><a class="dropdown-item" href="{{ url_for('credibot') }}">Card Match™</a></li><!--Get Matches with a card based on your credit score and needs, teach me to feed the data to the bot and have it generate responses-->
+                                    <li><a class="dropdown-item" href="{{ url_for('cardreviews') }}">Card Reviews</a></li><!-- Should this even be a whole ass page? Reviews.. really? Indulge me as to why.. why is it not just on the card details page? -->
+                                    <li><a class="dropdown-item" href="{{ url_for('news') }}">Credit Card News</a></li><!--Differs from company news-->
+                                    <li><a class="dropdown-item" href="{{ url_for('articles') }}">Credit Education</a></li>
+                                </ul>
+                            </li>
+
+                            <!-- OUR STORY -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Our Story</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ url_for('about') }}">About Company</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('news') }}">Company News</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('partnerships') }}">Partnerships</a></li>
+                                    <li><a class="dropdown-item" href="{{ url_for('contact') }}">Contact</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </div>
+                </div>
+
+            </nav>
+        </div>
+    </header>
+
+    <!-- OFFCANVAS (MOBILE MENU) -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight">
+        <div class="offcanvas-body custom-nevbar">
+
+            <button type="button" class="close-icon ms-auto d-md-none" data-bs-dismiss="offcanvas">
+                <i class="bi bi-x"></i>
+            </button>
+
+            <ul class="custom-nevbar__nav">
+
+                <li class="menu_item"><a class="menu_link" href="{{ url_for('compare') }}">Card Compare™</a></li>
+
+                <!-- categories -->
+                <li class="menu_item dropdown">
+                    <a class="menu_link dropdown-toggle" data-bs-toggle="dropdown">Card Category</a>
+                    <ul class="dropdown-menu">
+                        {% for c in categories %}
+                        <li><a class="dropdown-item" href="{{ url_for('cardreviews') }}?category={{ c }}">{{ c }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- banks -->
+                <li class="menu_item dropdown">
+                    <a class="menu_link dropdown-toggle" data-bs-toggle="dropdown">Card Issuer</a>
+                    <ul class="dropdown-menu">
+                        {% for b in banks %}
+                        <li><a class="dropdown-item" href="{{ url_for('cardreviews') }}?bank={{ b }}">{{ b }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- resources -->
+                <li class="menu_item dropdown">
+                    <a class="menu_link dropdown-toggle" data-bs-toggle="dropdown">Credit Resources</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('compare') }}">Card Compare™</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('cardreviews') }}">Card Reviews</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('news') }}">Credit Card News</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('articles') }}">Credit Education</a></li>
+                    </ul>
+                </li>
+
+                <!-- story -->
+                <li class="menu_item dropdown">
+                    <a class="menu_link dropdown-toggle" data-bs-toggle="dropdown">Our Story</a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ url_for('about') }}">About Company</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('news') }}">Company News</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('partnerships') }}">Partnerships</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('contact') }}">Contact</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <!-- Footer Area Start -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row section gy-5 gy-xl-0">
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="about-company wow fadeInLeft" data-wow-duration="0.8s">
+                        <div class="footer__logo mb-4">
+                            <a href="{{ url_for('home')}}">
+                                <img src="{{ url_for('static', filename = 'images/logo2.png')}}" alt="Logo">
+                            </a>
+                        </div>
+                        <p>Your trusted resource for all things related to credit cards.</p>
+                        <div class="social mt_32">
+                            <a href="#" class="btn_theme social_box"><i class="bi bi-facebook"></i><span></span></a>
+                            <a href="#" class="btn_theme social_box"><i class="bi bi-twitter"></i><span></span></a>
+                            <a href="#" class="btn_theme social_box"><i class="bi bi-pinterest"></i><span></span></a>
+                            <a href="#" class="btn_theme social_box"><i class="bi bi-twitch"></i><span></span></a>
+                            <a href="#" class="btn_theme social_box"><i class="bi bi-skype"></i><span></span></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="footer__contact ms-sm-4 ms-xl-0 wow fadeInUp" data-wow-duration="0.8s">
+                        <h4 class="footer__title mb-4">Contact</h4>
+                        <div class="footer__content">
+                            <a href="tel:+1-234-567-891"> <span class="btn_theme social_box"> <i class="bi bi-telephone-plus"></i> </span> +27 71 508 4518 <span></span> </a> 
+                            <a href="/cdn-cgi/l/email-protection#2d44434b426d48554c405d4148034e4240"> <span class="btn_theme social_box"> <i class="bi bi-envelope-open"></i> </span> <span class="__cf_email__" data-cfemail="7f161119103f1a071e120f131a511c1012">[email&#160;protected]</span> <span></span> </a> 
+                            <a href="#"> <span class="btn_theme social_box"> <i class="bi bi-geo-alt"></i> </span> 31 Brandy Way, Sutton, SM2 6SE <span></span> </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="newsletter wow fadeInDown" data-wow-duration="0.8s">
+                        <h4 class="footer__title mb-4">Newsletter</h4>
+                        <p class="mb_32">Subscribe to our newsletter and be the first to get the latest news on credit cards.</p>
+                        <form method="POST" autocomplete="off" id="frmSubscribe" class="newsletter__content-form">
+                            <div class="input-group">
+                                <input type="email" class="form-control" id="sMail" name="sMail" placeholder="Email Address" required>
+                                <button type="submit" class="emailSubscribe btn_theme btn_theme_active" name="emailSubscribe" id="emailSubscribe"><i class="bi bi-cursor"></i> <span></span></button>
+                            </div>
+                            <span id="subscribeMsg"></span>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="quick-link ms-sm-4 ms-xl-0 wow fadeInRight" data-wow-duration="0.8s">
+                        <h4 class="footer__title mb-4">Quick Links</h4>
+                        <ul>
+                            <li><a href="{{ url_for('about')}}">About us</a></li>
+                            <li><a href="loan-reviews.html">Credit Card Reviews</a></li>
+                            <li><a href="{{ url_for('contact')}}">Partnerships & Advertising</a></li>
+                            <li><a href="{{ url_for('blog')}}">News</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="footer__copyright">
+                        <p class="copyright text-center">Copyright © <span id="copyYear"></span> <a href="{{ url_for('home')}}" class="secondary_color">CreditCraze</a>. Designed By <a href="https://www.metasoft.co.za" target="_blank" class="secondary_color">Metasoft</a></p>
+                        <ul class="footer__copyright-conditions">
+                            <li><a href="#">Privacy policy</a></li>
+                            <li><a href="#">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer Area End -->
+
+    <a href="#" class="scrollToTop"><i class="bi bi-chevron-double-up"></i></a>
+
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='vendor/jquery/jquery-3.6.3.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/nice-select/js/jquery.nice-select.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/slick/js/slick.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='vendor/wow/wow.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/plugins.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>

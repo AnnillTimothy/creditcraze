@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>News</h2>
+    <ul>
+        {% for post in blog_posts %}
+            <li><a href="{{ url_for('article_details', post_id=post.id) }}">{{ post.title }}</a></li>
+            <li><a href="{{ url_for('delete_post', post_id=post.id) }}"><button style="max-height: 2rem;" type="button" class="btn_theme mt_32" >Delete<i class="bi bi-arrow-up-right"></i><span></span></button></a></li>
+        {% endfor %}
+    </ul>
+    <a href="{{ url_for('add_blog_post') }}" class="btn_theme">Add a New Blog Post</a>
+{% endblock %}

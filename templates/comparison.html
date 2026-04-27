@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Comparison Section -->
+<section class="sign-up contact section" style="padding-top: 15vh;">
+    <div class="container">
+
+        <!-- Title -->
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <h2 class="fw-bold">Compare Credit Cards</h2>
+                <p class="text-muted">Select up to three cards and view them side-by-side.</p>
+            </div>
+        </div>
+
+        <!-- FORM -->
+        <div class="row gy-5 justify-content-center">
+            <div class="col-12 col-lg-7">
+                <form method="POST" class="sign-up__form shadow p-4 rounded bg-white">
+
+                    {{ form.csrf_token }}
+
+                    <h3 class="contact__title mb-4">Choose Credit Cards</h3>
+
+                    <div class="sign-up__form-part">
+                        <div class="input-group">
+                            <div class="input-single">
+                                {{ form.card1.label(class="label") }}
+                                {{ form.card1(class="form-control") }}
+                            </div>
+
+                            <div class="input-single">
+                                {{ form.card2.label(class="label") }}
+                                {{ form.card2(class="form-control") }}
+                            </div>
+                        </div>
+
+                        <div class="input-single mt-4">
+                            {{ form.card3.label(class="label") }}
+                            {{ form.card3(class="form-control") }}
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn_theme btn_theme_active mt_40 w-100">
+                        Compare <i class="bi bi-arrow-up-right"></i>
+                        <span></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- RESULTS -->
+        {% if cards and cards|length > 0 %}
+        <div class="row justify-content-center mt-5">
+            <div class="col-12 text-center mb-4">
+                <h3 class="fw-bold">Comparison Results</h3>
+            </div>
+        </div>
+
+        <div class="row justify-content-center g-4">
+
+            {% for card in cards %}
+            <div class="col-lg-4 col-md-6">
+                <div class="card shadow border-0 rounded h-100 text-center p-3">
+
+                    <!-- IMAGE -->
+                    {% if card.photo %}
+                    <img src="{{ url_for('static', filename='uploads/' ~ card.photo) }}"
+                         alt="{{ card.name }}"
+                         class="img-fluid mb-3"
+                         style="max-height: 140px;">
+                    {% endif %}
+
+                    <!-- Card Name -->
+                    <h4 class="fw-bold">{{ card.name }}</h4>
+                    <p class="text-muted">{{ card.banks }}</p>
+
+                    <hr>
+
+                    <!-- Feature Table -->
+                    <table class="table table-sm text-start">
+                        <tr><th>Interest Rate</th><td>{{ card.interest_rate or '-' }}</td></tr>
+                        <tr><th>Interest-Free Days</th><td>{{ card.interest_free_days or '-' }}</td></tr>
+                        <tr><th>Monthly Fee</th><td>{{ card.monthly_fee or '-' }}</td></tr>
+                        <tr><th>Annual Fee</th><td>{{ card.annual_fee or '-' }}</td></tr>
+                        <tr><th>Minimum Income</th><td>{{ card.min_income or '-' }}</td></tr>
+                        <tr><th>Reward Summary</th><td>{{ card.rewards_summary or '-' }}</td></tr>
+                        <tr><th>Card Type</th><td>{{ card.card_type or '-' }}</td></tr>
+                        <tr><th>Categories</th><td>{{ card.categories or '-' }}</td></tr>
+                    </table>
+
+                    <a href="{{ url_for('card_details', card_id=card.id) }}"
+                       class="btn_theme btn_theme_active w-100">
+                        View Details <i class="bi bi-arrow-right"></i>
+                        <span></span>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div>
+        {% endif %}
+
+    </div>
+</section>
+
+{% endblock %}

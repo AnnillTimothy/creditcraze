@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}404 | CreditCraze{% endblock %}
+
+{% block content %}
+
+       <!-- error page start -->
+    <section class="error-page text-center section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-9 col-xxl-8">
+                    <div class="error-page__thumb wow fadeInDown" data-wow-duration="0.8s">
+                        <br>
+                        <img src="{{ url_for('static', filename = 'images/error_page.svg')}}" alt="images">
+                    </div>
+                </div>
+                <div class="col-12 col-md-8 col-xxl-8">
+                    <div class="section__content mt-5">
+                        <h2 class="mb-3">This page seems to have missed a payment.</h2>
+                        <p class="mb-4">
+                        The link you followed might be expired or the page may have been moved.
+                        Let’s get you back on track.
+                        </p>
+                        <br>
+                        <a href="{{ url_for('home') }}" class="btn_theme btn_theme_active">
+                        Return Home <i class="bi bi-arrow-up-right"></i><span></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- error page end -->     
+
+{% endblock %}

@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% block content %}
+
+<!-- Banner Start -->
+<section class="banner">
+    <div class="container">
+        <div class="row gy-4 gy-sm-0 align-items-center">
+            <div class="col-12 col-sm-6">
+                <div class="banner__content">
+                    <h1 class="banner__title display-4 wow fadeInLeft" data-wow-duration="0.8s">
+                        Credit Card Reviews
+                    </h1> 
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb wow fadeInRight" data-wow-duration="0.8s">
+                            <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Credit Card Reviews</li>
+                        </ol>
+                    </nav>
+
+                    <!-- CTA -->
+                    <a href="{{ url_for('compare') }}" class="btn_theme btn_theme_active mt-3">
+                        Compare Cards Side-by-Side <i class="bi bi-arrow-up-right"></i><span></span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6">
+                <div class="banner__thumb text-end">
+                    <img src="{{ url_for('static', filename='images/reviews_banner.svg') }}"
+                         alt="image"
+                         style="max-height: 20vh;">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Banner End -->
+
+
+<!-- Reviews Section -->
+<section class="loan-reviews loan-reviews--tertiary section">
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <!-- SIDEBAR -->
+            <div class="col-12 col-lg-4 col-xl-3">
+                <div class="sidebar-filter cus_scrollbar sidebar-xxl-fixed">
+                    
+                    <div class="sidebar-filter__part mb-4">
+                        <h4 class="sidebar-filter__title">Search</h4>
+                        <form method="GET" class="filter__search">
+                            <div class="input-group">
+                                <input type="text" class="form-control"
+                                       name="q"
+                                       placeholder="Search cards...">
+                                <button type="submit" class="search_icon">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="sidebar-filter__part">
+                        <h5 class="sidebar-filter__part-title">Filter by Issuer</h5>
+                        <ul class="query">
+                            {% for bank in banks %}
+                            <li class="query__list">
+                                <div class="query__label">
+                                    <input type="checkbox" name="issuer" value="{{ bank }}">
+                                    <label>{{ bank }}</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-filter__part">
+                        <h5 class="sidebar-filter__part-title">Filter by Category</h5>
+                        <ul class="query">
+                            {% for category in categories %}
+                            <li class="query__list">
+                                <div class="query__label">
+                                    <input type="checkbox" name="category" value="{{ category }}">
+                                    <label>{{ category }}</label>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <button class="btn_theme w-100 mt-3">Reset Filters <i class="bi bi-arrow-up-right"></i><span></span></button>
+                </div>
+            </div>
+
+            <!-- MAIN LIST -->
+            <div class="col-12 col-lg-8 col-xl-9">
+                <div class="d-flex flex-column gap-4">
+
+                    {% for card in credit_cards %}
+                    <div class="loan-reviews_card card wow fadeInUp" data-wow-duration="0.8s">
+
+                        <!-- left: image + rating -->
+                        <div class="loan-reviews__part-one">
+                            <div class="loan-reviews__thumb">
+                                <img src="{{ url_for('static', filename='uploads/' ~ card.photo) }}"
+                                     alt="image"
+                                     style="max-width: 10rem;">
+                            </div>
+
+                            <div class="loan-reviews__review">
+                                <p class="rating">4.9</p>
+                                <div class="d-flex gap-2 flex-column">
+                                    <div class="star_review">
+                                        <i class="bi bi-star-fill star-active"></i>
+                                        <i class="bi bi-star-fill star-active"></i>
+                                        <i class="bi bi-star-fill star-active"></i>
+                                        <i class="bi bi-star-fill star-active"></i>
+                                        <i class="bi bi-star-half star-active"></i>
+                                    </div>
+                                    <p class="fs-small">Average Review</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- center: details -->
+                        <div class="loan-reviews__part-two">
+                            <div class="reviews-heading">
+                                <h4 class="reviews-heading__title">{{ card.name }}</h4>
+                                <p class="reviews-heading__content text-muted">
+                                    {{ card.rewards_summary or card.categories }}
+                                </p>
+                            </div>
+
+                            <div class="reviews-inner">
+                                <ul>
+                                    <li><i class="bi bi-check2-circle"></i> {{ card.pros or '' }}</li>
+                                    <li><i class="bi bi-check2-circle"></i> Rewards: {{ card.rewards_summary or '-' }}</li>
+                                    <li><i class="bi bi-check2-circle"></i> Issued by: {{ card.banks }}</li>
+                                    <li><i class="bi bi-check2-circle"></i> {{ card.cons or '' }}</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- right: CTA -->
+                        <div class="loan-reviews__part-three">
+                            <div class="btn-group">
+                                <a href="{{ url_for('card_details', card_id=card.id) }}"
+                                   class="btn_theme btn_theme_active">
+                                    View Details <i class="bi bi-arrow-up-right"></i><span></span>
+                                </a>
+
+                                <a href="#" class="btn_theme">
+                                    Apply Now <i class="bi bi-arrow-up-right"></i><span></span>
+                                </a>
+
+                                <p class="conditions_apply">Terms & Conditions Apply</p>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}

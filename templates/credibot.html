@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="column" style="margin: 5% 10%;">
+    <h1>Hello, I'm Credibot. How can I help?</h1>
+
+    <div id="conversation" style="margin-bottom: 2rem;">
+        {% for message in conversation %}
+            {% if message.role == 'user' %}
+                <p><strong>You:</strong> {{ message.content }}</p>
+            {% elif message.role == 'assistant' %}
+                <p><strong>Credibot:</strong> {{ message.content }}</p>
+            {% endif %}
+        {% endfor %}
+    </div>
+
+    <form action="/get_response" method="POST">
+        <input type="text" name="user_input" style="width: 50%;" placeholder="Ask our Credibot Linda something..." autocomplete="off">
+        <input type="submit" value="Send">
+    </form>
+</section>
+{% endblock %}

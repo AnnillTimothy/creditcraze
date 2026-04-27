@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="choose-us choose-us--secondary section">
+  <div class="container">
+    <div class="row gy-5 gy-lg-0 justify-content-between align-items-center section">
+      <div class="col-12 col-lg-7">
+        <div class="section__content">
+          <p class="section__content-sub-title headingFour">
+            <img src="{{ url_for('static', filename='images/title_vector.png') }}" alt="vector"> Why CreditCraze
+          </p>
+
+          <h2 class="section__content-title">Smart credit. Smarter people.</h2>
+
+          <p class="section__content-text">
+            We teach people to use revolving credit on their terms — not be terrified of it.
+            With AI-powered transparency, clearer small-print, and practical comparison tools, we show
+            how responsible card use can be a financial advantage (not a trap). We explain interest, rewards,
+            fees and real-world impact in plain language so users can choose confidently.
+          </p>
+
+          <div class="section__content-inner">
+            <ul class="list-unstyled">
+              <li><i class="bi bi-check2-circle"></i> AI-powered summaries that make the small print obvious</li>
+              <li><i class="bi bi-check2-circle"></i> Clear comparisons to help you choose and control interest</li>
+              <li><i class="bi bi-check2-circle"></i> Practical education so cards beat loans for everyday users</li>
+              <li><i class="bi bi-check2-circle"></i> Real transparency: we highlight fees, limits and risks</li>
+            </ul>
+          </div>
+
+          <a href="{{ url_for('cardreviews') }}" class="btn_theme btn_theme_active mt_4">
+            Browse Card Reviews <i class="bi bi-arrow-right"></i><span></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-8 col-lg-5">
+        <div class="choose-us__thumb text-center">
+          <img src="{{ url_for('static', filename='images/about_us.svg') }}" alt="About illustration" class="img-fluid">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Working process (kept, simplified) -->
+<section class="working-process section py-5">
+  <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8 text-center">
+        <h3 class="fw-bold">How we work</h3>
+        <p class="text-muted">Simple steps: research, explain, compare, empower. We use AI to amplify transparency.</p>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card card--custom h-100 p-3 text-center">
+          <div class="mb-2"><i class="bi bi-search display-6"></i></div>
+          <h5>Research</h5>
+          <p class="small text-muted">We gather terms, fees and rewards across issuers.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card card--custom h-100 p-3 text-center">
+          <div class="mb-2"><i class="bi bi-journal-text display-6"></i></div>
+          <h5>Explain</h5>
+          <p class="small text-muted">AI converts small print into plain, actionable summaries.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card card--custom h-100 p-3 text-center">
+          <div class="mb-2"><i class="bi bi-layout-text-window-reverse display-6"></i></div>
+          <h5>Compare</h5>
+          <p class="small text-muted">Side-by-side features, fees and rewards so you can decide quickly.</p>
+        </div>
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-3">
+        <div class="card card--custom h-100 p-3 text-center">
+          <div class="mb-2"><i class="bi bi-shield-check display-6"></i></div>
+          <h5>Empower</h5>
+          <p class="small text-muted">Practical tips to manage interest, optimize rewards, and protect credit health.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials simplified to a responsive grid (keeps layout lightweight) -->
+<section class="testimonials section py-5 bg-light">
+  <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8 text-center">
+        <h3 class="fw-bold">What our users say</h3>
+        <p class="text-muted">Real people sharing how clarity and tools changed how they use credit.</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      {% set sample_testimonials = [
+        {'text': "CreditCraze showed me how to use my card without paying interest — it's honestly changed my finances.", 'name': "Thabo M.", 'role': "Entrepreneur", 'img': 'images/testimonials.png'},
+        {'text': "The AI summary exposed fees I'd never noticed. Saved me a small fortune on a switch.", 'name': "Aisha K.", 'role': "Teacher", 'img': 'images/testimonials2.png'},
+        {'text': "Comparison tools are simple and practical — found a rewards card that actually fits my life.", 'name': "Nikhil P.", 'role': "Developer", 'img': 'images/testimonials3.png'}
+      ] %}
+      {% for t in sample_testimonials %}
+      <div class="col-12 col-md-6 col-lg-4">
+        <div class="card h-100 p-3">
+          <p class="small">“{{ t.text }}”</p>
+          <div class="d-flex align-items-center mt-3">
+            <img src="{{ url_for('static', filename=t.img) }}" alt="{{ t.name }}" class="rounded-circle me-3" style="width:48px;height:48px;object-fit:cover;">
+            <div>
+              <strong>{{ t.name }}</strong>
+              <div class="small text-muted">{{ t.role }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Call to action -->
+<section class="section py-5">
+  <div class="container text-center">
+    <h3>Ready to take control?</h3>
+    <p class="text-muted mb-3">Browse reviews, compare cards, and use Credibot to get plain-English answers to the small print.</p>
+    <a href="{{ url_for('cardreviews') }}" class="btn_theme btn_theme_active">Browse Cards <i class="bi bi-arrow-right"></i><span></span></a>
+    <a href="{{ url_for('credibot') }}" class="btn_theme ms-2">Ask Credibot <i class="bi bi-robot"></i><span></span></a>
+  </div>
+</section>
+{% endblock %}

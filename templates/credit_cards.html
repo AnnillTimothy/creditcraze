@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Credit Card Reviews</h2>
+    <ul>
+        {% for card in credit_cards %}
+            <li>
+                <h3>{{ card.name }}</h3>
+                <p>{{ card.description }}</p>
+                {% if card.image %}
+                    <img src="{{ url_for('static', filename='img/' + card.image) }}" alt="Credit Card Image">
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('add_credit_card') }}">Add a Credit Card Review</a>
+{% endblock %}

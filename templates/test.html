@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block content %}
+    
+    <!-- Banner Start -->
+    <section class="banner">
+        <div class="container ">
+            <div class="row gy-4 gy-sm-0 align-items-center">
+                <div class="col-12 col-sm-6">
+                    <div class="banner__content">
+                        <h1 class="banner__title display-4 wow fadeInLeft" data-wow-duration="0.8s">Loan Comparison</h1> 
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb wow fadeInRight" data-wow-duration="0.8s">
+                                <li class="breadcrumb-item"><a href="{{ url_for('home')}}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Loan Comparison</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="banner__thumb text-end">
+                        <img src="assets/images/loan_comparison_banner.svg" alt="image" style="max-height: 25vh;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Banner End -->
+
+   <!-- Card Comparison start -->
+   <section class="loan-comparison section">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="loan-comparison__table">
+                        <h4 class="sloan-comparison__title wow fadeInUp" data-wow-duration="0.8s">Loan Comparison</h4>
+                        <form method="POST">
+                            {{ form.csrf_token }}
+                            {{ form.card1.label }}
+                            {{ form.card1 }}
+                            {{ form.card2.label }}
+                            {{ form.card2 }}
+                            {{ form.card3.label }}
+                            {{ form.card3 }}
+                            <button type="submit">Compare</button>
+                        </form>
+
+                        <table>
+                            <tr>
+                                <th>Bank</th>
+                                {% if card1 %}
+                                <th>{{ card1.name }}</th>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <th>{{ card2.name }}</th>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <th>{{ card3.name }}</th>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Name</td>
+                                {% if card1 %}
+                                <td>{{ card1.name }}</td>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <td>{{ card2.name }}</td>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <td>{{ card3.name }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Interest Rate</td>
+                                {% if card1 %}
+                                <td>{{ card1.name }}</td>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <td>{{ card2.name }}</td>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <td>{{ card3.name }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Interest Rate</td>
+                                {% if card1 %}
+                                <td>{{ card1.name }}</td>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <td>{{ card2.name }}</td>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <td>{{ card3.name }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Repayment Term</td>
+                                {% if card1 %}
+                                <td>{{ card1.name }}</td>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <td>{{ card2.name }}</td>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <td>{{ card3.name }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Eligibility Criteria</td>
+                                {% if card1 %}
+                                <td>{{ card1.name }}</td>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <td>{{ card2.name }}</td>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <td>{{ card3.name }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Application Process</td>
+                                {% if card1 %}
+                                <td>{{ card1.name }}</td>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <td>{{ card2.name }}</td>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <td>{{ card3.name }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Customer Support</td>
+                                {% if card1 %}
+                                <td>{{ card1.name }}</td>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <td>{{ card2.name }}</td>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <td>{{ card3.name }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Additional Fees</td>
+                                {% if card1 %}
+                                <td>{{ card1.name }}</td>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <td>{{ card2.name }}</td>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <td>{{ card3.name }}</td>
+                                {% endif %}
+                            </tr>
+                            <tr>
+                                <td>Additional Information</td>
+                                {% if card1 %}
+                                <td><a href="{{ url_for('carddetails', card_id=card2.id) }}" class="btn_theme">See More<i class="bi bi-arrow-up-right"></i><span></span></a></td>
+                                {% endif %}
+                                
+                                {% if card2 %}
+                                <td><a href="{{ url_for('carddetails', card_id=card2.id) }}" class="btn_theme">See More<i class="bi bi-arrow-up-right"></i><span></span></a></td>
+                                {% endif %}
+                                
+                                {% if card3 %}
+                                <td><a href="{{ url_for('carddetails', card_id=card3.id) }}" class="btn_theme">See More<i class="bi bi-arrow-up-right"></i><span></span></a></td>
+                                {% endif %}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Card Comparison end -->
+
+    {% endblock %}

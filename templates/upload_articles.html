@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- Banner Start -->
+    <section class="banner">
+        <div class="container ">
+            <div class="row gy-4 gy-sm-0 align-items-center">
+                <div class="col-12 col-sm-6">
+                    <div class="banner__content">
+                        <h1 class="banner__title display-4 wow fadeInLeft" data-wow-duration="0.8s">Add New Post</h1> 
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb wow fadeInRight" data-wow-duration="0.8s">
+                                <li class="breadcrumb-item"><a href="{{ url_for('home')}}">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Add New Article</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6">
+                    <div class="banner__thumb text-end">
+                        <img src="{{ url_for('static', filename = 'images/contact_banner.svg')}}" alt="image" style="max-height: 30vh;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Banner End -->
+   
+<!-- content start -->
+<section class="sign-up contact section">
+    <div class="container">
+        <div class="row gy-5 gy-xl-0 justify-content-center justify-content-lg-between">
+            <div class="col-12 col-lg-7 col-xxl-8">
+
+                <form method="POST" action="/add_blog_post" enctype="multipart/form-data" autocomplete="off" class="sign-up__form wow fadeInDown" data-wow-duration="0.8s">
+                    {{ form.csrf_token }}
+                    <h3 class="contact__title wow fadeInDown" data-wow-duration="0.8s">Add New Article.</h3>
+                    <div class="sign-up__form-part">
+
+                        <div class="input-single">
+                            <label class="label" for="title">Title</label>
+                            {{ form.title(class="form-control", placeholder="Enter The Title...", required=true) }}
+                        </div>
+
+                        <div class="input-single">
+                            <label class="label" for="subtitle">Subtitle</label>
+                            {{ form.subtitle(class="form-control", placeholder="Enter The Subtitle...") }}
+                        </div>
+
+                        <div class="input-single">
+                            <label class="label" for="introduction">Introduction</label>
+                            {{ form.introduction(class="form-control", placeholder="Enter The Introduction...") }}
+                        </div>
+
+                        <div class="input-single">
+                            <label class="label" for="slug">Slug</label>
+                            {{ form.slug(class="form-control", placeholder="Enter The Slug...", required=true) }}
+                        </div>
+
+                        <div class="input-single">
+                            <label class="label" for="content">Content</label>
+                            {{ form.content(class="form-control", rows=8, placeholder="Enter The Content...", required=true) }}
+                        </div>
+
+                        <div class="input-single">
+                            <label class="label" for="img1">Image 1</label>
+                            {{ form.img1(class="form-control", type="file") }}
+                        </div>
+
+                        <div class="input-single">
+                            <label class="label" for="img2">Image 2</label>
+                            {{ form.img2(class="form-control", type="file") }}
+                        </div>
+
+                        <div class="input-single">
+                            <label class="label" for="img3">Image 3</label>
+                            {{ form.img3(class="form-control", type="file") }}
+                        </div>
+
+                    </div>
+                    <button type="submit" value="submit" class="btn_theme btn_theme_active mt_40">Upload <i class="bi bi-arrow-up-right"></i><span></span></button>
+                </form>
+
+                {{ ckeditor.load() }}
+                {{ ckeditor.config(name='content') }}
+
+                {% if form.errors %}
+                    <ul class="errors">
+                        {% for field, errors in form.errors.items() %}
+                            {% for error in errors %}
+                                <li>{{ field }} - {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- content end -->
+
+{% endblock %}
