@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — CreditCraze{% endblock %}
+
+{% block content %}
+<div class="dash-layout">
+
+  <!-- Sidebar -->
+  <div class="dash-sidebar">
+    <div style="font-family:var(--font-head);font-weight:800;font-size:1rem;margin-bottom:1.5rem;color:var(--text-subtle);">ADMIN</div>
+
+    <a href="{{ url_for('dashboard') }}" class="dash-nav__item active">
+      <i class="bi bi-speedometer2"></i> Dashboard
+    </a>
+    <a href="{{ url_for('dashboard_add_card') }}" class="dash-nav__item">
+      <i class="bi bi-credit-card-2-front"></i> Add Card
+    </a>
+    <a href="{{ url_for('dashboard_add_post') }}" class="dash-nav__item">
+      <i class="bi bi-pencil-square"></i> Add Post
+    </a>
+    <a href="{{ url_for('dashboard_settings') }}" class="dash-nav__item">
+      <i class="bi bi-gear"></i> Site Settings
+    </a>
+
+    <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+      <a href="{{ url_for('home') }}" class="dash-nav__item">
+        <i class="bi bi-house"></i> View Site
+      </a>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="dash-main">
+    <div class="d-flex align-items-center justify-content-between mb-4">
+      <h2 style="font-weight:900;">Dashboard</h2>
+      <div class="d-flex gap-2">
+        <a href="{{ url_for('dashboard_add_card') }}" class="btn-glow btn-sm-glow">
+          <i class="bi bi-plus"></i> Add Card
+        </a>
+        <a href="{{ url_for('dashboard_add_post') }}" class="btn-sm-glow" style="background:var(--secondary);">
+          <i class="bi bi-pencil"></i> Add Post
+        </a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row gy-3 mb-5">
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-card__icon"><i class="bi bi-credit-card"></i></div>
+          <div class="stat-card__number">{{ total_cards }}</div>
+          <div class="stat-card__label">Total Cards</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-card__icon" style="background:linear-gradient(135deg,#2563eb,#06b6d4);"><i class="bi bi-file-text"></i></div>
+          <div class="stat-card__number">{{ total_posts }}</div>
+          <div class="stat-card__label">Blog Posts</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-card__icon" style="background:linear-gradient(135deg,#10b981,#06b6d4);"><i class="bi bi-star-fill"></i></div>
+          <div class="stat-card__number">{{ featured|length }}</div>
+          <div class="stat-card__label">Featured Cards</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="stat-card__icon" style="background:linear-gradient(135deg,#f59e0b,#ef4444);"><i class="bi bi-stars"></i></div>
+          <div class="stat-card__number">AI</div>
+          <div class="stat-card__label">Credibot Active</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick actions -->
+    <div class="row gy-3 mb-5">
+      <div class="col-12">
+        <h5 style="font-weight:700;margin-bottom:1rem;">Quick Actions</h5>
+        <div class="d-flex gap-2 flex-wrap">
+          <a href="{{ url_for('dashboard_add_card') }}" class="btn-glow">
+            <i class="bi bi-credit-card-2-front"></i> Add Credit Card
+          </a>
+          <a href="{{ url_for('dashboard_add_post') }}" class="btn-outline-glow">
+            <i class="bi bi-pencil-square"></i> Publish Article
+          </a>
+          <a href="{{ url_for('dashboard_settings') }}" class="btn-outline-glow">
+            <i class="bi bi-gear"></i> Site Settings / Logo
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Featured cards table -->
+    {% if featured %}
+    <div class="glass-card" style="padding:1.75rem;">
+      <h5 style="font-weight:700;margin-bottom:1.25rem;">Featured Cards</h5>
+      <div class="table-responsive">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="border-bottom:1px solid var(--border);">
+              <th style="padding:0.75rem;text-align:left;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-subtle);">Card</th>
+              <th style="padding:0.75rem;text-align:left;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-subtle);">Issuer</th>
+              <th style="padding:0.75rem;text-align:left;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-subtle);">Tier</th>
+              <th style="padding:0.75rem;text-align:left;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-subtle);">Annual Fee</th>
+              <th style="padding:0.75rem;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for card in featured %}
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:0.75rem;font-weight:600;">{{ card.name }}</td>
+              <td style="padding:0.75rem;color:var(--text-muted);font-size:0.875rem;">{{ card.banks }}</td>
+              <td style="padding:0.75rem;">
+                {% if card.tier %}<span class="badge-tier badge-tier--{{ card.tier|lower }}">{{ card.tier }}</span>{% endif %}
+              </td>
+              <td style="padding:0.75rem;color:var(--text-muted);font-size:0.875rem;">
+                {% if card.annual_fee is not none %}R{{ '%.0f'|format(card.annual_fee) }}{% else %}—{% endif %}
+              </td>
+              <td style="padding:0.75rem;">
+                <div class="d-flex gap-2">
+                  <a href="{{ url_for('card_details', card_id=card.id) }}" class="btn-sm-glow" style="font-size:0.75rem;padding:0.35rem 0.75rem;">
+                    <i class="bi bi-eye"></i>
+                  </a>
+                  <form method="POST" action="{{ url_for('dashboard_delete_card', card_id=card.id) }}" onsubmit="return confirm('Delete this card?');" style="margin:0;">
+                    <button type="submit" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#fca5a5;border-radius:100px;padding:0.35rem 0.75rem;font-size:0.75rem;cursor:pointer;">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock %}

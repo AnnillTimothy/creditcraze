@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}{{ 'Edit' if edit_mode else 'Add' }} Card — Admin{% endblock %}
+
+{% block content %}
+<div class="dash-layout">
+  <div class="dash-sidebar">
+    <div style="font-family:var(--font-head);font-weight:800;font-size:1rem;margin-bottom:1.5rem;color:var(--text-subtle);">ADMIN</div>
+    <a href="{{ url_for('dashboard') }}" class="dash-nav__item"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="{{ url_for('dashboard_add_card') }}" class="dash-nav__item active"><i class="bi bi-credit-card-2-front"></i> Add Card</a>
+    <a href="{{ url_for('dashboard_add_post') }}" class="dash-nav__item"><i class="bi bi-pencil-square"></i> Add Post</a>
+    <a href="{{ url_for('dashboard_settings') }}" class="dash-nav__item"><i class="bi bi-gear"></i> Site Settings</a>
+    <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border);">
+      <a href="{{ url_for('home') }}" class="dash-nav__item"><i class="bi bi-house"></i> View Site</a>
+    </div>
+  </div>
+
+  <div class="dash-main">
+    <div class="d-flex align-items-center gap-3 mb-4">
+      <a href="{{ url_for('dashboard') }}" style="color:var(--text-muted);"><i class="bi bi-arrow-left"></i></a>
+      <h2 style="font-weight:900;margin:0;">{{ 'Edit' if edit_mode else 'Add New' }} Credit Card</h2>
+    </div>
+
+    {% if form.errors %}
+    <div class="alert-danger mb-4">
+      Please fix the errors below before saving.
+    </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+      {{ form.csrf_token }}
+
+      <div class="form-section">
+        <div class="form-section__title">Core Information</div>
+        <div class="row gy-3">
+          <div class="col-12 col-md-6">
+            {{ form.name.label }}{{ form.name(class="form-control", placeholder="e.g. ABSA Rewards Credit Card") }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.banks.label }}{{ form.banks(class="form-select", size="4") }}
+            <small style="color:var(--text-subtle);font-size:0.7rem;">Hold Ctrl/Cmd to select multiple</small>
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.card_type.label }}{{ form.card_type(class="form-select") }}
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.tier.label }}{{ form.tier(class="form-select") }}
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.categories.label }}{{ form.categories(class="form-select", size="4") }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Financial Details</div>
+        <div class="row gy-3">
+          <div class="col-12 col-md-4">
+            {{ form.interest_rate.label }}{{ form.interest_rate(class="form-control", placeholder="e.g. 20.5% or Personalised") }}
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.interest_free_days.label }}{{ form.interest_free_days(class="form-control", placeholder="e.g. 55") }}
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.monthly_fee.label }}{{ form.monthly_fee(class="form-control", placeholder="0.00") }}
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.annual_fee.label }}{{ form.annual_fee(class="form-control", placeholder="0.00") }}
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.min_income.label }}{{ form.min_income(class="form-control", placeholder="e.g. R10,000/month") }}
+          </div>
+          <div class="col-12 col-md-4">
+            {{ form.limit_range.label }}{{ form.limit_range(class="form-control", placeholder="e.g. R5,000 – R100,000") }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Rewards &amp; Features</div>
+        <div class="row gy-3">
+          <div class="col-12 col-md-4">
+            {{ form.reward_type.label }}{{ form.reward_type(class="form-control", placeholder="e.g. eBucks, Avios") }}
+          </div>
+          <div class="col-12 col-md-8">
+            {{ form.rewards_summary.label }}{{ form.rewards_summary(class="form-control") }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.travel_features.label }}{{ form.travel_features(class="form-control") }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.lifestyle_features.label }}{{ form.lifestyle_features(class="form-control") }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.insurance.label }}{{ form.insurance(class="form-control") }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.discounts.label }}{{ form.discounts(class="form-control") }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Education &amp; Transparency</div>
+        <div class="row gy-3">
+          <div class="col-12 col-md-6">
+            {{ form.pros.label }}{{ form.pros(class="form-control", rows=3, placeholder="One pro per line") }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.cons.label }}{{ form.cons(class="form-control", rows=3, placeholder="One con per line") }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.benefits.label }}{{ form.benefits(class="form-control", rows=2) }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.risks.label }}{{ form.risks(class="form-control", rows=2) }}
+          </div>
+          <div class="col-12">
+            {{ form.requirements.label }}{{ form.requirements(class="form-control", rows=2) }}
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <div class="form-section__title">Media &amp; Links</div>
+        <div class="row gy-3">
+          <div class="col-12 col-md-6">
+            {{ form.photo.label }}{{ form.photo(class="form-control") }}
+          </div>
+          <div class="col-12 col-md-6">
+            {{ form.brochure_link.label }}{{ form.brochure_link(class="form-control", placeholder="https://...") }}
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-check mt-2">
+              {{ form.is_featured(class="form-check-input") }}
+              {{ form.is_featured.label(class="form-check-label") }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn-glow">
+          <i class="bi bi-check-lg"></i> {{ 'Update' if edit_mode else 'Save Card' }}
+        </button>
+        <a href="{{ url_for('dashboard') }}" class="btn-outline-glow">Cancel</a>
+      </div>
+
+    </form>
+  </div>
+</div>
+{% endblock %}

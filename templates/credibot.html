@@ -1,22 +1,98 @@
 {% extends "base.html" %}
+{% block title %}Credibot — AI Card Match{% endblock %}
 
 {% block content %}
-<section class="column" style="margin: 5% 10%;">
-    <h1>Hello, I'm Credibot. How can I help?</h1>
 
-    <div id="conversation" style="margin-bottom: 2rem;">
+<div class="chat-layout">
+
+  <!-- Sidebar -->
+  <div class="chat-sidebar">
+    <div class="chat-sidebar__logo text-gradient">Credibot</div>
+    <div class="chat-sidebar__sub">AI Credit Card Advisor <i class="bi bi-stars" style="color:var(--accent);"></i></div>
+
+    <div class="gradient-divider mb-3"></div>
+
+    <div class="chat-sidebar__section-title">Quick Questions</div>
+    <button class="chip-btn" data-prompt="What's the best travel credit card in South Africa?">
+      <i class="bi bi-airplane me-1"></i> Best travel card?
+    </button>
+    <button class="chip-btn" data-prompt="Which card has the lowest annual fee?">
+      <i class="bi bi-tag me-1"></i> Lowest annual fee?
+    </button>
+    <button class="chip-btn" data-prompt="I earn R15,000/month. What card can I get?">
+      <i class="bi bi-person-check me-1"></i> Cards for my income?
+    </button>
+    <button class="chip-btn" data-prompt="What credit card gives the best cashback rewards?">
+      <i class="bi bi-cash-stack me-1"></i> Best cashback?
+    </button>
+    <button class="chip-btn" data-prompt="What's the best student credit card?">
+      <i class="bi bi-mortarboard me-1"></i> Student cards?
+    </button>
+    <button class="chip-btn" data-prompt="Explain how credit card interest works in South Africa.">
+      <i class="bi bi-question-circle me-1"></i> How does interest work?
+    </button>
+
+    <div class="gradient-divider my-3"></div>
+
+    <div class="chat-sidebar__section-title">Compare &amp; Browse</div>
+    <a href="{{ url_for('cardreviews') }}" class="chip-btn" style="display:flex;align-items:center;">
+      <i class="bi bi-grid me-1"></i> Browse All Cards
+    </a>
+    <a href="{{ url_for('compare') }}" class="chip-btn" style="display:flex;align-items:center;">
+      <i class="bi bi-bar-chart-steps me-1"></i> Compare Tool
+    </a>
+  </div>
+
+  <!-- Main chat area -->
+  <div class="chat-main">
+
+    <div class="chat-messages" id="chatMessages">
+
+      {% if not conversation %}
+      <div class="chat-empty">
+        <div class="chat-empty__icon"><i class="bi bi-chat-dots"></i></div>
+        <div class="chat-empty__title">Ask me anything about credit cards</div>
+        <p style="font-size:0.875rem;max-width:300px;line-height:1.6;">
+          I can compare cards, explain fees, help you find the best card for your lifestyle, and demystify South African credit.
+        </p>
+      </div>
+      {% else %}
         {% for message in conversation %}
-            {% if message.role == 'user' %}
-                <p><strong>You:</strong> {{ message.content }}</p>
-            {% elif message.role == 'assistant' %}
-                <p><strong>Credibot:</strong> {{ message.content }}</p>
-            {% endif %}
+          {% if message.role == 'user' %}
+          <div class="chat-msg chat-msg--user">
+            <div class="chat-msg__avatar"><i class="bi bi-person"></i></div>
+            <div class="chat-msg__bubble">{{ message.content }}</div>
+          </div>
+          {% elif message.role == 'assistant' %}
+          <div class="chat-msg chat-msg--bot">
+            <div class="chat-msg__avatar">C</div>
+            <div class="chat-msg__bubble">{{ message.content }}</div>
+          </div>
+          {% endif %}
         {% endfor %}
+      {% endif %}
+
     </div>
 
-    <form action="/get_response" method="POST">
-        <input type="text" name="user_input" style="width: 50%;" placeholder="Ask our Credibot Linda something..." autocomplete="off">
-        <input type="submit" value="Send">
-    </form>
-</section>
+    <!-- Input -->
+    <div class="chat-input-area">
+      <form method="POST" action="{{ url_for('get_response') }}" class="chat-input-form" id="chatForm">
+        <input type="text"
+               name="user_input"
+               class="chat-input"
+               placeholder="Ask Credibot anything about credit cards..."
+               autocomplete="off"
+               required>
+        <button type="submit" class="chat-send-btn" aria-label="Send">
+          <i class="bi bi-send-fill"></i>
+        </button>
+      </form>
+      <p style="font-size:0.65rem;color:var(--text-subtle);text-align:center;margin-top:0.5rem;">
+        AI responses are informational only. Always verify details with the issuing bank.
+      </p>
+    </div>
+
+  </div>
+</div>
+
 {% endblock %}

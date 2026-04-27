@@ -1,372 +1,210 @@
 {% extends "base.html" %}
+{% block title %}{{ card.name }} — CreditCraze{% endblock %}
 
 {% block content %}
-    
-    <!-- Banner Start -->
-    <section class="banner">
-        <div class="container ">
-            <div class="row gy-4 gy-sm-0 align-items-center">
-                <div class="col-12 col-sm-6">
-                    <div class="banner__content">
-                        <h1 class="banner__title display-4 wow fadeInLeft" data-wow-duration="0.8s">
-                            {{ card.name }}
-                        </h1> 
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb wow fadeInRight" data-wow-duration="0.8s">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ url_for('home') }}">Home</a>
-                                </li>
-                                <li class="breadcrumb-item">
-                                    <a href="{{ url_for('cardreviews') }}">Credit Card Reviews</a>
-                                </li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    {{ card.name }}
-                                </li>
-                            </ol>
-                        </nav>
-                        <p class="mt-3 text-muted">
-                            {{ card.banks }}{% if card.tier %} • {{ card.tier }}{% endif %}{% if card.card_type %} • {{ card.card_type }}{% endif %}
-                        </p>
-                    </div>
-                </div>
-                <div class="col-12 col-sm-6">
-                    <div class="banner__thumb text-end">
-                        {% if card.photo %}
-                            <img src="{{ url_for('static', filename='uploads/' ~ card.photo) }}" 
-                                 alt="{{ card.name }}" style="max-height: 20vh;">
-                        {% else %}
-                            <img src="{{ url_for('static', filename='images/reviews_banner.svg') }}" 
-                                 alt="image" style="max-height: 20vh;">
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
+
+<!-- Hero -->
+<section class="card-hero">
+  <div class="container">
+    <div class="row align-items-center gy-5">
+
+      <div class="col-12 col-lg-6">
+        <div class="page-banner__breadcrumb mb-3">
+          <a href="{{ url_for('home') }}">Home</a>
+          <span class="sep"><i class="bi bi-chevron-right"></i></span>
+          <a href="{{ url_for('cardreviews') }}">Cards</a>
+          <span class="sep"><i class="bi bi-chevron-right"></i></span>
+          <span>{{ card.name }}</span>
         </div>
-    </section>
-    <!-- Banner End -->
 
-    <!-- Card details start -->
-    <section class="reviews-details section">
-        <div class="container ">
-            <div class="row">
-                <!-- MAIN COLUMN -->
-                <div class="col-12 col-xl-8 order-1 order-xl-0">
-                    <div class="reviews-details__area">
-
-                        <!-- SUMMARY CARD -->
-                        <div class="reviews-details__part wow fadeInUp" data-wow-duration="0.8s">
-                            <div class="loan-reviews loan-reviews--quaternary">
-                                <div class="loan-reviews_card card">
-                                    <div class="loan-reviews__part-one">
-                                        <div class="loan-reviews__thumb">
-                                            {% if card.photo %}
-                                                <img src="{{ url_for('static', filename='uploads/' ~ card.photo) }}" 
-                                                     alt="{{ card.name }}">
-                                            {% else %}
-                                                <img src="{{ url_for('static', filename='images/loan_reviews_logo2.png') }}" 
-                                                     alt="Card image">
-                                            {% endif %}
-                                        </div>
-                                        <div class="loan-reviews__review">
-                                            {% if card.ai_confidence %}
-                                                <p class="rating">
-                                                    {{ (card.ai_confidence * 100) | round(1) }}%
-                                                </p>
-                                                <div class="d-flex gap-2 flex-column">
-                                                    <p class="fs-small">AI confidence</p>
-                                                </div>
-                                            {% else %}
-                                                <p class="rating">NA</p>
-                                                <div class="d-flex gap-2 flex-column">
-                                                    <p class="fs-small">AI review coming soon</p>
-                                                </div>
-                                            {% endif %}
-                                        </div>
-                                    </div>
-                                    <div class="loan-reviews__part-two">
-                                        <div class="reviews-heading">
-                                            <h4 class="reviews-heading__title">{{ card.name }}</h4>
-                                            <p class="reviews-heading__content">
-                                                {{ card.banks }}
-                                                {% if card.tier %} • {{ card.tier }}{% endif %}
-                                                {% if card.card_type %} • {{ card.card_type }}{% endif %}
-                                            </p>
-                                            {% if card.categories %}
-                                                <p class="mt-2">
-                                                    <strong>Best for:</strong> {{ card.categories }}
-                                                </p>
-                                            {% endif %}
-                                        </div>
-                                        <div class="reviews-inner">
-                                            <ul>
-                                                {% if card.pros %}
-                                                    <li><i class="bi bi-check2-circle"></i> {{ card.pros }}</li>
-                                                {% endif %}
-                                                {% if card.benefits %}
-                                                    <li><i class="bi bi-check2-circle"></i> {{ card.benefits }}</li>
-                                                {% endif %}
-                                                {% if card.rewards_summary %}
-                                                    <li><i class="bi bi-check2-circle"></i> {{ card.rewards_summary }}</li>
-                                                {% endif %}
-                                                {% if card.cons %}
-                                                    <li><i class="bi bi-x-circle"></i> {{ card.cons }}</li>
-                                                {% endif %}
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- KEY NUMBERS -->
-                            <div class="card charges__card flex-column flex-xxl-row wow fadeInUp mt-4" data-wow-duration="0.8s">
-                                <div class="charges__part">
-                                    <span class="charges__part-percentage">
-                                        {{ card.interest_rate or "—" }}
-                                    </span>
-                                    <div class="charges__part-content">
-                                        <p class="charges__part-title mb-2">Interest rate</p>
-                                        <p class="fs-small">Use your interest-free period and avoid paying this at all.</p>
-                                    </div>
-                                </div>
-                                <div class="charges__part">
-                                    <span class="charges__part-percentage">
-                                        {% if card.monthly_fee is not none %}R {{ card.monthly_fee | round(2) }}{% else %}—{% endif %}
-                                    </span>
-                                    <div class="charges__part-content">
-                                        <p class="charges__part-title mb-2">Monthly fee</p>
-                                        <p class="fs-small">What you’ll pay just for having the card.</p>
-                                    </div>
-                                </div>
-                                <div class="charges__part">
-                                    <span class="charges__part-percentage">
-                                        {% if card.interest_free_days %}{{ card.interest_free_days }} days{% else %}—{% endif %}
-                                    </span>
-                                    <div class="charges__part-content">
-                                        <p class="charges__part-title mb-2">Interest-free days</p>
-                                        <p class="fs-small">Settle in full every month and your revolving credit stays free.</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- AT A GLANCE -->
-                            <div class="section__content wow fadeInUp mt-4" data-wow-duration="0.8s">
-                                <h2 class="section__content-title">At a glance</h2>
-                                <p class="section__content-text">
-                                    Here’s a quick summary of what this card costs, what it gives you back,
-                                    and who it’s really designed for.
-                                </p>
-
-                                <div class="row mt-4">
-                                    <div class="col-md-6 mb-4">
-                                        <h5>Fees & limits</h5>
-                                        <ul class="section__content-list">
-                                            {% if card.annual_fee is not none %}
-                                            <li class="headingFive">Annual fee: R {{ card.annual_fee | round(2) }}</li>
-                                            {% endif %}
-                                            {% if card.monthly_fee is not none %}
-                                            <li class="headingFive">Monthly fee: R {{ card.monthly_fee | round(2) }}</li>
-                                            {% endif %}
-                                            {% if card.limit_range %}
-                                            <li class="headingFive">Typical limit: {{ card.limit_range }}</li>
-                                            {% endif %}
-                                            {% if card.min_income %}
-                                            <li class="headingFive">Minimum income/profile: {{ card.min_income }}</li>
-                                            {% endif %}
-                                            {% if card.interest_free_days %}
-                                            <li class="headingFive">Interest-free period: {{ card.interest_free_days }} days</li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <h5>Rewards & perks</h5>
-                                        <ul class="section__content-list">
-                                            {% if card.reward_type %}
-                                            <li class="headingFive">Reward type: {{ card.reward_type }}</li>
-                                            {% endif %}
-                                            {% if card.rewards_summary %}
-                                            <li class="headingFive">{{ card.rewards_summary }}</li>
-                                            {% endif %}
-                                            {% if card.travel_features %}
-                                            <li class="headingFive">Travel: {{ card.travel_features }}</li>
-                                            {% endif %}
-                                            {% if card.lifestyle_features %}
-                                            <li class="headingFive">Lifestyle: {{ card.lifestyle_features }}</li>
-                                            {% endif %}
-                                            {% if card.discounts %}
-                                            <li class="headingFive">Discounts: {{ card.discounts }}</li>
-                                            {% endif %}
-                                            {% if card.insurance %}
-                                            <li class="headingFive">Insurance: {{ card.insurance }}</li>
-                                            {% endif %}
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                {% if card.requirements or card.risks %}
-                                <div class="row mt-2">
-                                    <div class="col-md-6 mb-4">
-                                        <h5>Requirements</h5>
-                                        <p class="section__content-text">
-                                            {{ card.requirements or "Standard credit & affordability checks apply." }}
-                                        </p>
-                                    </div>
-                                    <div class="col-md-6 mb-4">
-                                        <h5>Risks / Things to watch</h5>
-                                        <p class="section__content-text">
-                                            {{ card.risks or "Revolving credit is powerful when managed well – but interest can get expensive if you only pay the minimum." }}
-                                        </p>
-                                    </div>
-                                </div>
-                                {% endif %}
-                            </div>
-
-                            <!-- PROS / CONS -->
-                            <div class="card pro__card wow fadeInUp mt-4" data-wow-duration="0.8s">
-                                <div class="pro__part">
-                                    <h4 class="gap-6 mb-4">
-                                        <i class="bi bi-check-circle-fill"></i> Pros
-                                    </h4>
-                                    <ul>
-                                        {% if card.pros %}
-                                            <li><i class="bi bi-check2"></i>{{ card.pros }}</li>
-                                        {% else %}
-                                            <li><i class="bi bi-check2"></i>Strong value when you pay your balance in full every month.</li>
-                                        {% endif %}
-                                        {% if card.benefits %}
-                                            <li><i class="bi bi-check2"></i>{{ card.benefits }}</li>
-                                        {% endif %}
-                                        {% if card.rewards_summary %}
-                                            <li><i class="bi bi-check2"></i>{{ card.rewards_summary }}</li>
-                                        {% endif %}
-                                    </ul>
-                                </div>
-                                <div class="pro__part free">
-                                    <h4 class="gap-6 mb-4">
-                                        <i class="bi bi-x-circle-fill"></i> Cons
-                                    </h4>
-                                    <ul>
-                                        {% if card.cons %}
-                                            <li><i class="bi bi-x-lg"></i>{{ card.cons }}</li>
-                                        {% else %}
-                                            <li><i class="bi bi-x-lg"></i>Carrying a balance month-to-month can get expensive.</li>
-                                        {% endif %}
-                                        {% if card.risks %}
-                                            <li><i class="bi bi-x-lg"></i>{{ card.risks }}</li>
-                                        {% endif %}
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- AI OPINION -->
-                            <div class="section__content mt-4 wow fadeInUp" data-wow-duration="0.8s">
-                                <h3 class="section__content-title">Credibot’s take</h3>
-                                {% if card.ai_summary %}
-                                    <p class="section__content-text">
-                                        {{ card.ai_summary }}
-                                    </p>
-                                    {% if card.ai_confidence %}
-                                        <p class="text-muted fs-small">
-                                            Confidence score: {{ (card.ai_confidence * 100) | round(1) }}%
-                                        </p>
-                                    {% endif %}
-                                {% else %}
-                                    <p class="section__content-text">
-                                        Our AI assistant is learning this card. Soon you’ll see a plain-English breakdown of
-                                        who this card is for, how to avoid paying interest, and how to squeeze the most
-                                        rewards from it.
-                                    </p>
-                                {% endif %}
-                            </div>
-
-                        </div>
-
-                    </div>
-                </div>
-
-                <!-- SIDEBAR -->
-                <div class="col-12 col-xl-4 btn_sticky">
-                    <div class="d-inline-block d-xl-none mb-4">
-                        <button class="sidebar_btn">
-                            <i class="bi bi-layout-text-sidebar"></i> 
-                            <span>Card snapshot</span>
-                        </button>    
-                    </div>
-                    <div class="sidebar sidebar_fixed sidebar-xl-fixed cus_scrollbar">
-                        <div class="sidebar__part">
-                            <h4 class="sidebar__part-title">Card snapshot</h4>
-
-                            {% if card.banks %}
-                            <p class="mb-1"><strong>Issuer:</strong> {{ card.banks }}</p>
-                            {% endif %}
-
-                            {% if card.card_type %}
-                            <p class="mb-1"><strong>Network / Type:</strong> {{ card.card_type }}</p>
-                            {% endif %}
-
-                            {% if card.categories %}
-                            <p class="mb-1"><strong>Category:</strong> {{ card.categories }}</p>
-                            {% endif %}
-
-                            {% if card.tier %}
-                            <p class="mb-1"><strong>Tier:</strong> {{ card.tier }}</p>
-                            {% endif %}
-
-                            {% if card.min_income %}
-                            <p class="mb-1"><strong>Minimum income/profile:</strong> {{ card.min_income }}</p>
-                            {% endif %}
-
-                            {% if card.limit_range %}
-                            <p class="mb-1"><strong>Typical credit limit:</strong> {{ card.limit_range }}</p>
-                            {% endif %}
-
-                            {% if card.interest_rate %}
-                            <p class="mb-1"><strong>Interest rate:</strong> {{ card.interest_rate }}</p>
-                            {% endif %}
-
-                            {% if card.interest_free_days %}
-                            <p class="mb-1"><strong>Interest-free days:</strong> {{ card.interest_free_days }} days</p>
-                            {% endif %}
-
-                            {% if card.monthly_fee is not none %}
-                            <p class="mb-1"><strong>Monthly fee:</strong> R {{ card.monthly_fee | round(2) }}</p>
-                            {% endif %}
-
-                            {% if card.annual_fee is not none %}
-                            <p class="mb-3"><strong>Annual fee:</strong> R {{ card.annual_fee | round(2) }}</p>
-                            {% endif %}
-
-                            <div class="text-center mt_32">
-                                {% if card.brochure_link %}
-                                    <a href="{{ card.brochure_link }}" target="_blank" 
-                                       class="btn_theme btn_theme_active w-100 mb-2">
-                                        View bank’s info <i class="bi bi-arrow-up-right"></i><span></span>
-                                    </a>
-                                {% endif %}
-                                <a href="{{ url_for('compare') }}" class="btn_theme w-100 mb-2">
-                                    Compare this card <i class="bi bi-arrow-left-right"></i><span></span>
-                                </a>
-                                <p class="d-flex align-items-center justify-content-center mt_12">
-                                    <i class="bi bi-dot"></i>
-                                    Always read the bank’s Ts & Cs before you apply.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="sidebar__part">
-                            <h4 class="sidebar__part-title">Share this review</h4>
-                            <div class="social mt_32">
-                                <a href="#" class="btn_theme social_box btn_bg_white"><i class="bi bi-facebook"></i><span></span></a>
-                                <a href="#" class="btn_theme social_box btn_bg_white"><i class="bi bi-twitter"></i><span></span></a>
-                                <a href="#" class="btn_theme social_box btn_bg_white"><i class="bi bi-whatsapp"></i><span></span></a>
-                                <a href="#" class="btn_theme social_box btn_bg_white"><i class="bi bi-link-45deg"></i><span></span></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /SIDEBAR -->
-            </div>
+        <div class="d-flex align-items-center gap-2 mb-2 flex-wrap">
+          {% if card.tier %}
+          <span class="badge-tier badge-tier--{{ card.tier|lower }}">{{ card.tier }}</span>
+          {% endif %}
+          {% if card.card_type %}
+          <span class="tag">{{ card.card_type }}</span>
+          {% endif %}
         </div>
-    </section>
-    <!-- Card details end -->
+
+        <h1 style="font-size:clamp(1.75rem,4vw,2.75rem);font-weight:900;letter-spacing:-0.02em;margin-bottom:0.5rem;">
+          {{ card.name }}
+        </h1>
+        <p style="font-size:1rem;color:var(--text-muted);margin-bottom:2rem;">Issued by <strong style="color:var(--text);">{{ card.banks }}</strong></p>
+
+        <div class="d-flex gap-2 flex-wrap">
+          {% if card.brochure_link %}
+          <a href="{{ card.brochure_link }}" target="_blank" rel="noopener" class="btn-glow">
+            Apply Now <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+          {% endif %}
+          <a href="{{ url_for('compare') }}" class="btn-outline-glow">
+            <i class="bi bi-bar-chart-steps"></i> Compare
+          </a>
+          <a href="{{ url_for('credibot') }}" class="btn-outline-glow">
+            <i class="bi bi-stars"></i> Ask AI
+          </a>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <div class="card-hero__card-wrap">
+          {% set tier_class = 'cc-card--' ~ (card.tier or 'standard')|lower %}
+          <div class="cc-card {{ tier_class }} mx-auto" data-tilt style="width:300px;height:188px;" aria-hidden="true">
+            <div class="cc-card__chip"></div>
+            <div class="cc-card__network">{{ card.card_type or 'VISA' }}</div>
+            <div class="cc-card__number">•••• •••• •••• ••••</div>
+            <div class="cc-card__name">{{ card.name }}</div>
+            <div class="cc-card__bank">{{ card.banks }}</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Stats grid -->
+<section class="section-sm">
+  <div class="container">
+    <div class="stats-grid">
+      {% if card.interest_rate %}
+      <div class="stat-box">
+        <div class="stat-box__label">Interest Rate</div>
+        <div class="stat-box__value">{{ card.interest_rate }}</div>
+      </div>
+      {% endif %}
+      {% if card.interest_free_days %}
+      <div class="stat-box">
+        <div class="stat-box__label">Interest-Free Days</div>
+        <div class="stat-box__value">{{ card.interest_free_days }}</div>
+      </div>
+      {% endif %}
+      {% if card.monthly_fee is not none %}
+      <div class="stat-box">
+        <div class="stat-box__label">Monthly Fee</div>
+        <div class="stat-box__value">R{{ '%.0f'|format(card.monthly_fee) }}</div>
+      </div>
+      {% endif %}
+      {% if card.annual_fee is not none %}
+      <div class="stat-box">
+        <div class="stat-box__label">Annual Fee</div>
+        <div class="stat-box__value">R{{ '%.0f'|format(card.annual_fee) }}</div>
+      </div>
+      {% endif %}
+      {% if card.min_income %}
+      <div class="stat-box">
+        <div class="stat-box__label">Min Income</div>
+        <div class="stat-box__value" style="font-size:1.1rem;">{{ card.min_income }}</div>
+      </div>
+      {% endif %}
+      {% if card.limit_range %}
+      <div class="stat-box">
+        <div class="stat-box__label">Limit Range</div>
+        <div class="stat-box__value" style="font-size:1.1rem;">{{ card.limit_range }}</div>
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="row gy-4 mt-2">
+
+      <!-- Left column -->
+      <div class="col-12 col-lg-7">
+
+        <!-- AI Summary -->
+        <div class="ai-summary-box mb-4" data-ai-card-id="{{ card.id }}">
+          <div class="ai-summary-box__label">
+            <i class="bi bi-stars"></i> AI Summary
+          </div>
+          <div class="ai-summary-content">
+            <div class="ai-loading"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+
+        <!-- Rewards & Features -->
+        {% if card.rewards_summary or card.reward_type %}
+        <div class="glass-card mb-4" style="padding:1.5rem;">
+          <h5 style="font-weight:700;margin-bottom:1rem;">Rewards &amp; Benefits</h5>
+          {% if card.reward_type %}
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <span class="tag">{{ card.reward_type }}</span>
+          </div>
+          {% endif %}
+          {% if card.rewards_summary %}<p style="font-size:0.9rem;color:var(--text-muted);">{{ card.rewards_summary }}</p>{% endif %}
+          {% if card.travel_features %}<p style="font-size:0.875rem;color:var(--text-muted);"><strong>Travel:</strong> {{ card.travel_features }}</p>{% endif %}
+          {% if card.lifestyle_features %}<p style="font-size:0.875rem;color:var(--text-muted);"><strong>Lifestyle:</strong> {{ card.lifestyle_features }}</p>{% endif %}
+          {% if card.insurance %}<p style="font-size:0.875rem;color:var(--text-muted);"><strong>Insurance:</strong> {{ card.insurance }}</p>{% endif %}
+          {% if card.discounts %}<p style="font-size:0.875rem;color:var(--text-muted);"><strong>Discounts:</strong> {{ card.discounts }}</p>{% endif %}
+        </div>
+        {% endif %}
+
+        <!-- Requirements -->
+        {% if card.requirements %}
+        <div class="glass-card mb-4" style="padding:1.5rem;">
+          <h5 style="font-weight:700;margin-bottom:0.75rem;">Requirements</h5>
+          <p style="font-size:0.875rem;color:var(--text-muted);">{{ card.requirements }}</p>
+        </div>
+        {% endif %}
+
+      </div>
+
+      <!-- Right column: pros/cons -->
+      <div class="col-12 col-lg-5">
+        <div class="glass-card" style="padding:1.5rem;">
+          <h5 style="font-weight:700;margin-bottom:1.25rem;">Pros &amp; Cons</h5>
+
+          {% if card.pros %}
+          <p style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--success);margin-bottom:0.5rem;">Pros</p>
+          <ul class="pro-con-list mb-3">
+            {% for pro in card.pros.split('\n') %}
+            {% if pro.strip() %}
+            <li><i class="bi bi-check-circle-fill text-success"></i> {{ pro.strip() }}</li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          {% if card.cons %}
+          <p style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--danger);margin-bottom:0.5rem;">Cons</p>
+          <ul class="pro-con-list">
+            {% for con in card.cons.split('\n') %}
+            {% if con.strip() %}
+            <li><i class="bi bi-x-circle-fill text-danger"></i> {{ con.strip() }}</li>
+            {% endif %}
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+          {% if card.benefits %}
+          <div class="gradient-divider my-3"></div>
+          <p style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-subtle);margin-bottom:0.5rem;">Benefits</p>
+          <p style="font-size:0.85rem;color:var(--text-muted);">{{ card.benefits }}</p>
+          {% endif %}
+
+          {% if card.risks %}
+          <div class="gradient-divider my-3"></div>
+          <p style="font-size:0.75rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;color:var(--warning);margin-bottom:0.5rem;">Things to Know</p>
+          <p style="font-size:0.85rem;color:var(--text-muted);">{{ card.risks }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Apply CTA -->
+        <div class="glass-card mt-3" style="padding:1.5rem;text-align:center;border-color:rgba(124,58,237,0.3);">
+          <p style="font-size:0.8rem;color:var(--text-muted);margin-bottom:1rem;">Ready to apply? Verify details with the bank before proceeding.</p>
+          {% if card.brochure_link %}
+          <a href="{{ card.brochure_link }}" target="_blank" rel="noopener" class="btn-glow w-100 justify-content-center">
+            Apply Now <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+          {% else %}
+          <a href="{{ url_for('credibot') }}" class="btn-glow w-100 justify-content-center">
+            <i class="bi bi-stars"></i> Ask Credibot Instead
+          </a>
+          {% endif %}
+          <p style="font-size:0.65rem;color:var(--text-subtle);margin-top:0.75rem;">T&amp;Cs Apply · Information is indicative only</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
 {% endblock %}
