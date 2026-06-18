@@ -465,15 +465,18 @@ def seed_cards():
     updated = 0
     for payload in SEED_CARDS:
         card = CreditCard.query.filter_by(name=payload["name"]).first()
-        if card is None:
+        is_new = card is None
+        if is_new:
             card = CreditCard(name=payload["name"], card_type=payload["card_type"], banks=payload["banks"])
             db.session.add(card)
-            created += 1
-        else:
-            updated += 1
 
         for key, value in payload.items():
             setattr(card, key, value)
+
+        if is_new:
+            created += 1
+        else:
+            updated += 1
 
     db.session.commit()
     print(f"Seed complete: {created} created, {updated} updated, total payloads {len(SEED_CARDS)}")

@@ -406,12 +406,14 @@ def compare():
 
     if form.validate_on_submit():
         selected = []
+        selected_ids = set()
         for field_name in ("card1", "card2", "card3"):
             selected_id = getattr(form, field_name).data
             if selected_id:
                 card = CreditCard.query.get(selected_id)
-                if card and card.id not in {existing.id for existing in selected}:
+                if card and card.id not in selected_ids:
                     selected.append(card)
+                    selected_ids.add(card.id)
         return render_template("comparison.html", form=form, cards=selected)
     return render_template("comparison.html", form=form, cards=[])
 
