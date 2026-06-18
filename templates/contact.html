@@ -1,10 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Contact — CreditCraze{% endblock %}
+{% block title %}Contact Credit Compass{% endblock %}
 {% block content %}
-
 <div class="page-banner">
   <div class="container">
-    <h1 class="page-banner__title fade-up">Get in <span class="text-gradient">Touch</span></h1>
+    <h1 class="page-banner__title fade-up">Get in <span class="text-gradient">touch</span></h1>
     <div class="page-banner__breadcrumb">
       <a href="{{ url_for('home') }}">Home</a>
       <span class="sep"><i class="bi bi-chevron-right"></i></span>
@@ -15,91 +14,46 @@
 
 <section class="section-sm">
   <div class="container">
-    <div class="row gy-5">
-
+    <div class="row gy-4">
       <div class="col-12 col-lg-5">
-        <h3 style="font-weight:800;margin-bottom:1rem;">Let's connect</h3>
-        <p style="color:var(--text-muted);line-height:1.7;margin-bottom:2rem;">
-          Questions about a card, partnership inquiries, advertising, or just want to say hi —
-          we'd love to hear from you.
-        </p>
-
-        <div class="d-flex flex-column gap-3">
-          {% if site_settings and site_settings.contact_phone %}
-          <div class="d-flex align-items-center gap-3">
-            <div class="feature-card__icon" style="width:44px;height:44px;border-radius:10px;flex-shrink:0;">
-              <i class="bi bi-telephone"></i>
+        <div class="glass-card h-100" style="padding:2rem;">
+          <div class="section-eyebrow">Contact</div>
+          <h3 style="font-size:2rem;">Let’s build smarter credit journeys.</h3>
+          <p style="color:var(--text-muted);line-height:1.8;">Reach out for partnerships, media requests, product questions, or launch support.</p>
+          <div class="d-flex flex-column gap-3 mt-4">
+            <div>
+              <div style="color:var(--text-subtle);text-transform:uppercase;font-size:0.76rem;letter-spacing:0.12em;">Email</div>
+              <div>{{ site_settings.contact_email or 'hello@creditcompass.co.za' }}</div>
             </div>
             <div>
-              <div style="font-size:0.7rem;color:var(--text-subtle);text-transform:uppercase;letter-spacing:0.08em;">Phone</div>
-              <div style="font-size:0.9rem;">{{ site_settings.contact_phone }}</div>
-            </div>
-          </div>
-          {% endif %}
-          {% if site_settings and site_settings.contact_email %}
-          <div class="d-flex align-items-center gap-3">
-            <div class="feature-card__icon" style="width:44px;height:44px;border-radius:10px;flex-shrink:0;">
-              <i class="bi bi-envelope"></i>
+              <div style="color:var(--text-subtle);text-transform:uppercase;font-size:0.76rem;letter-spacing:0.12em;">Phone</div>
+              <div>{{ site_settings.contact_phone or '+27 (0)10 000 0000' }}</div>
             </div>
             <div>
-              <div style="font-size:0.7rem;color:var(--text-subtle);text-transform:uppercase;letter-spacing:0.08em;">Email</div>
-              <div style="font-size:0.9rem;">{{ site_settings.contact_email }}</div>
+              <div style="color:var(--text-subtle);text-transform:uppercase;font-size:0.76rem;letter-spacing:0.12em;">Address</div>
+              <div>{{ site_settings.contact_address or 'Johannesburg, South Africa' }}</div>
             </div>
           </div>
-          {% endif %}
-          {% if site_settings and site_settings.contact_address %}
-          <div class="d-flex align-items-center gap-3">
-            <div class="feature-card__icon" style="width:44px;height:44px;border-radius:10px;flex-shrink:0;">
-              <i class="bi bi-geo-alt"></i>
-            </div>
-            <div>
-              <div style="font-size:0.7rem;color:var(--text-subtle);text-transform:uppercase;letter-spacing:0.08em;">Address</div>
-              <div style="font-size:0.9rem;">{{ site_settings.contact_address }}</div>
-            </div>
+          <div class="mt-4">
+            <a href="{{ url_for('credibot') }}" class="btn-outline-glow"><i class="bi bi-stars"></i> Ask Compass AI first</a>
           </div>
-          {% endif %}
-        </div>
-
-        <div class="d-flex gap-2 mt-4">
-          <a href="{{ url_for('credibot') }}" class="btn-glow">
-            <i class="bi bi-stars"></i> Ask Credibot First
-          </a>
         </div>
       </div>
-
       <div class="col-12 col-lg-7">
         <div class="glass-card" style="padding:2rem;">
-          <h5 style="font-weight:700;margin-bottom:1.5rem;">Send us a message</h5>
+          <h5 style="font-size:1.45rem;">Send us a message</h5>
           <form>
-            <div class="row gy-3">
-              <div class="col-12 col-md-6">
-                <label for="cName">Your Name</label>
-                <input type="text" id="cName" class="form-control" placeholder="Jane Smith">
-              </div>
-              <div class="col-12 col-md-6">
-                <label for="cEmail">Email Address</label>
-                <input type="email" id="cEmail" class="form-control" placeholder="you@example.com">
-              </div>
-              <div class="col-12">
-                <label for="cSubject">Subject</label>
-                <input type="text" id="cSubject" class="form-control" placeholder="Partnership / Advertising / General">
-              </div>
-              <div class="col-12">
-                <label for="cMsg">Message</label>
-                <textarea id="cMsg" class="form-control" rows="5" placeholder="Your message..."></textarea>
-              </div>
-              <div class="col-12">
-                <button type="submit" class="btn-glow">
-                  Send Message <i class="bi bi-send"></i>
-                </button>
-              </div>
+            <div class="row gy-3 mt-1">
+              <div class="col-12 col-md-6"><label for="cName">Your name</label><input type="text" id="cName" class="form-control" placeholder="Jane Smith"></div>
+              <div class="col-12 col-md-6"><label for="cEmail">Email address</label><input type="email" id="cEmail" class="form-control" placeholder="you@example.com"></div>
+              <div class="col-12"><label for="cSubject">Subject</label><input type="text" id="cSubject" class="form-control" placeholder="Partnership / Advertising / General"></div>
+              <div class="col-12"><label for="cMsg">Message</label><textarea id="cMsg" class="form-control" rows="6" placeholder="Tell us how we can help."></textarea></div>
+              <div class="col-12"><button type="submit" class="btn-glow">Send Message <i class="bi bi-send"></i></button></div>
             </div>
           </form>
         </div>
       </div>
-
     </div>
   </div>
 </section>
-
 {% endblock %}

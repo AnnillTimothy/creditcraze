@@ -1,281 +1,265 @@
 {% set banks = banks or [] %}
 {% set categories = categories or [] %}
+{% set logo_path = url_for('static', filename='uploads/' ~ site_settings.logo_filename) if site_settings and site_settings.logo_filename else url_for('static', filename='img/credit-compass-logo.svg') %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}CreditCraze — AI Credit Card Companion{% endblock %}</title>
-  <meta name="description" content="{% block meta_desc %}Find, compare and understand credit cards with AI-powered insights.{% endblock %}">
+  <title>{% block title %}{{ seo_meta.title }}{% endblock %}</title>
+  <meta name="description" content="{% block meta_desc %}{{ seo_meta.description }}{% endblock %}">
+  <meta name="keywords" content="{{ seo_meta.keywords }}">
+  <meta name="robots" content="{{ 'noindex, nofollow' if seo_meta.noindex else 'index, follow, max-image-preview:large' }}">
+  <link rel="canonical" href="{{ seo_meta.canonical }}">
+  <meta property="og:type" content="{{ seo_meta.type }}">
+  <meta property="og:title" content="{{ seo_meta.title }}">
+  <meta property="og:description" content="{{ seo_meta.description }}">
+  <meta property="og:url" content="{{ seo_meta.canonical }}">
+  <meta property="og:image" content="{{ seo_meta.image }}">
+  <meta property="og:site_name" content="{{ brand_name }}">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="{{ seo_meta.title }}">
+  <meta name="twitter:description" content="{{ seo_meta.description }}">
+  <meta name="twitter:image" content="{{ seo_meta.image }}">
+  <meta name="theme-color" content="#08111d">
+  <link rel="icon" href="{{ url_for('static', filename='img/credit-compass-mark.svg') }}" type="image/svg+xml">
+  <link rel="manifest" href="{{ url_for('manifest') }}">
 
-  <!-- Google Fonts -->
+  <script>
+    window.CREDIT_COMPASS = {
+      consentKey: 'credit-compass-consent',
+      cookies: {{ cookie_categories|tojson }},
+      cookieCopy: {{ cookie_copy|tojson }},
+      page: {{ request.endpoint|tojson }}
+    };
+    window.dataLayer = window.dataLayer || [];
+  </script>
+
+  <script type="application/ld+json">
+    {{ {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      'name': brand_name,
+      'url': site_url,
+      'logo': url_for('static', filename='img/credit-compass-mark.svg', _external=True),
+      'description': brand_description,
+      'sameAs': [
+        site_settings.facebook_url if site_settings else '',
+        site_settings.twitter_url if site_settings else '',
+        site_settings.instagram_url if site_settings else ''
+      ] | reject('equalto', '') | list
+    } | tojson }}
+  </script>
+  <script type="application/ld+json">
+    {{ {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      'name': brand_name,
+      'url': site_url,
+      'description': brand_description,
+      'potentialAction': {
+        '@type': 'SearchAction',
+        'target': site_url ~ url_for('cardreviews') ~ '?q={search_term_string}',
+        'query-input': 'required name=search_term_string'
+      }
+    } | tojson }}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- Bootstrap 5.3 -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-        crossorigin="anonymous">
-  <!-- Bootstrap Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <!-- CKEditor (for admin) -->
   {{ ckeditor.load() if ckeditor is defined else '' }}
-  <!-- Custom styles -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
   {% block extra_css %}{% endblock %}
 </head>
 <body>
-
+  <div class="site-shell"></div>
   <div id="scroll-progress"></div>
 
-  <!-- Preloader -->
   <div id="preloader">
     <div class="preloader-inner">
-      <div class="preloader-brand">CreditCraze</div>
+      <img src="{{ url_for('static', filename='img/credit-compass-mark.svg') }}" alt="{{ brand_name }}" class="preloader-mark">
+      <div class="preloader-brand">{{ brand_name }}</div>
       <div class="preloader-ring"></div>
     </div>
   </div>
 
-  <!-- ============================================================
-       NAVBAR
-  ============================================================ -->
   <nav class="navbar navbar-expand-lg">
     <div class="container">
-
-      <!-- Brand -->
-      <a class="navbar-brand" href="{{ url_for('home') }}">
-        {% if site_settings and site_settings.logo_filename %}
-          <img src="{{ url_for('static', filename='uploads/' ~ site_settings.logo_filename) }}" alt="CreditCraze" height="36">
-        {% else %}
-          CreditCraze
-        {% endif %}
+      <a class="navbar-brand" href="{{ url_for('home') }}" aria-label="{{ brand_name }} home">
+        <img src="{{ logo_path }}" alt="{{ brand_name }} logo">
       </a>
 
-      <!-- Mobile toggler -->
+      <div class="d-none d-lg-flex align-items-center nav-center gap-1 mx-auto">
+        <a class="nav-link" href="{{ url_for('home') }}#how-it-works">How It Works</a>
+        <a class="nav-link" href="{{ url_for('cardreviews') }}">Cards &amp; Banks</a>
+        <a class="nav-link" href="{{ url_for('compare') }}">Compare</a>
+        <a class="nav-link" href="{{ url_for('articles') }}">Learn</a>
+        <a class="nav-link" href="{{ url_for('about') }}">About</a>
+      </div>
+
+      <div class="d-none d-lg-flex align-items-center gap-2 nav-actions">
+        <a href="{{ url_for('quiz') }}" class="btn-outline-glow btn-nav-primary">Take the Quiz</a>
+        <a href="{{ url_for('sign_in') }}" class="btn-ghost-nav">Login</a>
+      </div>
+
       <button class="navbar-toggler border-0" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-label="Open menu">
         <span class="navbar-toggler-icon"></span>
       </button>
-
-      <!-- Desktop nav -->
-      <div class="collapse navbar-collapse">
-        <ul class="navbar-nav ms-auto gap-1 align-items-lg-center">
-
-          <!-- Cards -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Cards</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('cardreviews') }}"><i class="bi bi-grid me-2"></i>Browse All Cards</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('compare') }}"><i class="bi bi-bar-chart-steps me-2"></i>Compare Cards™</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('credibot') }}"><i class="bi bi-stars me-2"></i>Card Match™ AI</a></li>
-            </ul>
-          </li>
-
-          <!-- By Category -->
-          {% if categories %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Category</a>
-            <ul class="dropdown-menu">
-              {% for c in categories %}
-              <li><a class="dropdown-item" href="{{ url_for('cardreviews') }}?category={{ c }}">{{ c }}</a></li>
-              {% endfor %}
-            </ul>
-          </li>
-          {% endif %}
-
-          <!-- By Issuer -->
-          {% if banks %}
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Issuer</a>
-            <ul class="dropdown-menu" style="max-height:300px;overflow-y:auto;">
-              {% for b in banks %}
-              <li><a class="dropdown-item" href="{{ url_for('cardreviews') }}?bank={{ b }}">{{ b }}</a></li>
-              {% endfor %}
-            </ul>
-          </li>
-          {% endif %}
-
-          <!-- Learn -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Learn</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('articles') }}"><i class="bi bi-book me-2"></i>Credit Education</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('news') }}"><i class="bi bi-newspaper me-2"></i>News &amp; Insights</a></li>
-            </ul>
-          </li>
-
-          <!-- About -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">About</a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="{{ url_for('about') }}"><i class="bi bi-info-circle me-2"></i>About Us</a></li>
-              <li><a class="dropdown-item" href="{{ url_for('contact') }}"><i class="bi bi-envelope me-2"></i>Contact</a></li>
-            </ul>
-          </li>
-
-          <li class="nav-item ms-2">
-            <a href="{{ url_for('credibot') }}" class="btn-glow btn-sm-glow">
-              <i class="bi bi-stars"></i> Ask Credibot
-            </a>
-          </li>
-
-        </ul>
-      </div>
-
     </div>
   </nav>
 
-  <!-- Mobile Offcanvas -->
   <div class="offcanvas offcanvas-end" tabindex="-1" id="mobileMenu">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title">CreditCraze</h5>
+      <img src="{{ logo_path }}" alt="{{ brand_name }} logo" class="offcanvas-brand-img">
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body p-0">
-      <div class="accordion accordion-flush" id="mobileAccordion" style="background:transparent;">
-
-        <div class="p-3 border-bottom" style="border-color:var(--border)!important;">
-          <a href="{{ url_for('cardreviews') }}" class="d-flex align-items-center gap-2 py-2" style="color:var(--text-muted);">
-            <i class="bi bi-grid"></i> Browse All Cards
-          </a>
-          <a href="{{ url_for('compare') }}" class="d-flex align-items-center gap-2 py-2" style="color:var(--text-muted);">
-            <i class="bi bi-bar-chart-steps"></i> Compare Cards™
-          </a>
-          <a href="{{ url_for('credibot') }}" class="d-flex align-items-center gap-2 py-2" style="color:var(--accent);">
-            <i class="bi bi-stars"></i> Card Match™ AI
-          </a>
-        </div>
-
-        <div class="p-3 border-bottom" style="border-color:var(--border)!important;">
-          <p style="font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-subtle);margin-bottom:0.5rem;">Learn</p>
-          <a href="{{ url_for('articles') }}" class="d-flex align-items-center gap-2 py-2" style="color:var(--text-muted);">
-            <i class="bi bi-book"></i> Credit Education
-          </a>
-          <a href="{{ url_for('news') }}" class="d-flex align-items-center gap-2 py-2" style="color:var(--text-muted);">
-            <i class="bi bi-newspaper"></i> News &amp; Insights
-          </a>
-        </div>
-
-        <div class="p-3">
-          <a href="{{ url_for('about') }}" class="d-flex align-items-center gap-2 py-2" style="color:var(--text-muted);">
-            <i class="bi bi-info-circle"></i> About Us
-          </a>
-          <a href="{{ url_for('contact') }}" class="d-flex align-items-center gap-2 py-2" style="color:var(--text-muted);">
-            <i class="bi bi-envelope"></i> Contact
-          </a>
-          <a href="{{ url_for('dashboard') }}" class="d-flex align-items-center gap-2 py-2" style="color:var(--text-muted);">
-            <i class="bi bi-speedometer2"></i> Admin
-          </a>
-        </div>
-
+    <div class="offcanvas-body">
+      <div class="mobile-nav-links">
+        <a href="{{ url_for('home') }}#how-it-works">How It Works</a>
+        <a href="{{ url_for('cardreviews') }}">Cards &amp; Banks</a>
+        <a href="{{ url_for('compare') }}">Compare</a>
+        <a href="{{ url_for('credibot') }}">Compass AI</a>
+        <a href="{{ url_for('articles') }}">Learn</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('contact') }}">Contact</a>
+        <a href="{{ url_for('sign_in') }}">Login</a>
       </div>
+      {% if banks %}
+      <div class="mobile-menu-panel">
+        <div class="mobile-menu-label">Top Issuers</div>
+        <div class="mobile-chip-wrap">
+          {% for bank in banks[:8] %}
+          <a href="{{ url_for('cardreviews') }}?bank={{ bank }}" class="chip-link">{{ bank }}</a>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
     </div>
   </div>
-  <!-- /Offcanvas -->
 
-  <!-- Flash messages -->
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
-    <div style="position:fixed;top:80px;right:1rem;z-index:9000;display:flex;flex-direction:column;gap:0.5rem;max-width:320px;">
+    <div class="flash-stack">
       {% for category, msg in messages %}
-      <div class="alert-{{ category }} alert-auto p-3 rounded" style="font-size:0.875rem;">
-        {{ msg }}
-      </div>
+      <div class="alert-{{ category }} alert-auto p-3 rounded">{{ msg }}</div>
       {% endfor %}
     </div>
     {% endif %}
   {% endwith %}
 
-  <!-- ============================================================
-       PAGE CONTENT
-  ============================================================ -->
   {% block content %}{% endblock %}
 
-  <!-- ============================================================
-       FOOTER
-  ============================================================ -->
-  <footer>
+  <footer class="site-footer">
     <div class="container">
-      <div class="row gy-5">
-
-        <!-- Brand -->
-        <div class="col-12 col-md-4 col-lg-3">
-          <div class="footer__brand">CreditCraze</div>
+      <div class="row gy-5 align-items-start">
+        <div class="col-12 col-lg-4">
+          <img src="{{ logo_path }}" alt="{{ brand_name }} logo" class="footer-brand-img">
           <p class="footer__tagline">
             {% if site_settings and site_settings.footer_tagline %}
               {{ site_settings.footer_tagline }}
             {% else %}
-              Your AI-powered guide to smarter credit decisions in South Africa.
+              Your guide to smarter revolving credit decisions.
             {% endif %}
           </p>
           <div class="footer__social">
-            <a href="#" class="social-btn" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="social-btn" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
-            <a href="#" class="social-btn" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="social-btn" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+            {% if site_settings and site_settings.facebook_url %}<a href="{{ site_settings.facebook_url }}" class="social-btn" aria-label="Facebook" target="_blank" rel="noopener"><i class="bi bi-facebook"></i></a>{% endif %}
+            {% if site_settings and site_settings.twitter_url %}<a href="{{ site_settings.twitter_url }}" class="social-btn" aria-label="X" target="_blank" rel="noopener"><i class="bi bi-twitter-x"></i></a>{% endif %}
+            {% if site_settings and site_settings.instagram_url %}<a href="{{ site_settings.instagram_url }}" class="social-btn" aria-label="Instagram" target="_blank" rel="noopener"><i class="bi bi-instagram"></i></a>{% endif %}
           </div>
         </div>
 
-        <!-- Quick links -->
-        <div class="col-6 col-md-2 col-lg-2">
-          <h6 class="footer__col-title">Cards</h6>
+        <div class="col-6 col-md-3 col-lg-2">
+          <h6 class="footer__col-title">Navigate</h6>
           <ul class="footer__links">
-            <li><a href="{{ url_for('cardreviews') }}">Browse Cards</a></li>
-            <li><a href="{{ url_for('compare') }}">Compare™</a></li>
-            <li><a href="{{ url_for('credibot') }}">Card Match™</a></li>
+            <li><a href="{{ url_for('home') }}#how-it-works">How It Works</a></li>
+            <li><a href="{{ url_for('cardreviews') }}">Cards &amp; Banks</a></li>
+            <li><a href="{{ url_for('compare') }}">Compare</a></li>
+            <li><a href="{{ url_for('credibot') }}">Compass AI</a></li>
           </ul>
         </div>
 
-        <div class="col-6 col-md-2 col-lg-2">
+        <div class="col-6 col-md-3 col-lg-2">
           <h6 class="footer__col-title">Learn</h6>
           <ul class="footer__links">
-            <li><a href="{{ url_for('articles') }}">Education</a></li>
+            <li><a href="{{ url_for('articles') }}">Guides</a></li>
             <li><a href="{{ url_for('news') }}">News</a></li>
-            <li><a href="{{ url_for('about') }}">About Us</a></li>
+            <li><a href="{{ url_for('about') }}">Our Story</a></li>
             <li><a href="{{ url_for('contact') }}">Contact</a></li>
           </ul>
         </div>
 
-        <!-- Newsletter -->
-        <div class="col-12 col-md-4 col-lg-5">
-          <h6 class="footer__col-title">Stay Updated</h6>
-          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:1rem;">
-            Get the latest card deals, rate changes, and credit tips delivered to your inbox.
-          </p>
-          <form class="d-flex" onsubmit="return false;">
-            <input type="email" class="footer__newsletter-input" placeholder="your@email.com" aria-label="Email">
-            <button type="submit" class="footer__newsletter-btn">Subscribe</button>
-          </form>
+        <div class="col-12 col-md-6 col-lg-4">
+          <div class="footer-cta-card">
+            <div class="footer-cta-label">Younger workforce credit coaching</div>
+            <h6>Understand revolving credit like a strategic tool, not a mystery.</h6>
+            <p>Explore bank cards, compare fees, and get guided toward the right fit for your goals.</p>
+            <a href="{{ url_for('quiz') }}" class="btn-glow">Start Your Journey <i class="bi bi-arrow-right"></i></a>
+          </div>
         </div>
-
       </div>
 
       <div class="footer__bottom">
-        <p class="footer__copyright">
-          &copy; <span id="copy-year"></span> CreditCraze. Designed by
-          <a href="https://www.metasoft.co.za" target="_blank" rel="noopener" style="color:var(--primary-light);">Metasoft</a>.
-        </p>
+        <p class="footer__copyright">&copy; <span id="copy-year">{{ current_year }}</span> {{ brand_name }}. Built for launch-ready deployment.</p>
         <div class="footer__legal">
           <a href="{{ url_for('terms') }}">Terms</a>
-          <a href="{{ url_for('privacy') }}">Privacy</a>
+          <a href="{{ url_for('privacy') }}">Privacy &amp; Cookies</a>
           <a href="{{ url_for('disclaimer') }}">Disclaimer</a>
         </div>
       </div>
     </div>
   </footer>
 
-  <!-- Scroll to top -->
   <button class="scroll-top" aria-label="Back to top"><i class="bi bi-arrow-up"></i></button>
 
-  <!-- ── Scripts ── -->
-  <!-- GSAP 3 + ScrollTrigger -->
+  <div class="cookie-banner" id="cookieBanner" hidden>
+    <div class="cookie-banner__content">
+      <div>
+        <p class="cookie-banner__eyebrow">Privacy first</p>
+        <h3>Choose how Credit Compass uses cookies.</h3>
+        <p class="cookie-banner__copy" id="cookieBannerCopy">{{ cookie_copy }}</p>
+      </div>
+      <div class="cookie-banner__actions">
+        <button class="btn-ghost-nav" type="button" data-cookie-action="essential">Essential only</button>
+        <button class="btn-outline-glow" type="button" data-cookie-action="customize">Settings</button>
+        <button class="btn-glow" type="button" data-cookie-action="accept">Accept all</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="cookie-panel" id="cookiePanel" hidden>
+    <div class="cookie-panel__dialog glass-card">
+      <div class="cookie-panel__header">
+        <div>
+          <p class="cookie-banner__eyebrow">Cookie controls</p>
+          <h3>Control your data journey</h3>
+        </div>
+        <button type="button" class="btn-close cookie-panel__close" aria-label="Close"></button>
+      </div>
+      <p class="cookie-panel__intro">Turn optional cookies on or off. Essential cookies always stay on so the site can function securely.</p>
+      <div class="cookie-panel__list">
+        {% for cookie in cookie_categories %}
+        <label class="cookie-toggle-card">
+          <div>
+            <div class="cookie-toggle-card__title">{{ cookie.label }}</div>
+            <p>{{ cookie.description }}</p>
+          </div>
+          <input type="checkbox" data-cookie-key="{{ cookie.key }}" {% if cookie.required %}checked disabled{% endif %}>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="cookie-panel__footer">
+        <button type="button" class="btn-ghost-nav" data-cookie-save="essential">Essential only</button>
+        <button type="button" class="btn-glow" data-cookie-save="custom">Save settings</button>
+      </div>
+    </div>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-  <!-- Bootstrap 5 bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-          integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-          crossorigin="anonymous"></script>
-  <!-- Custom JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
   <script src="{{ url_for('static', filename='js/main.js') }}"></script>
   {% block extra_js %}{% endblock %}
 </body>

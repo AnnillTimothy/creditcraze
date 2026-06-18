@@ -1,331 +1,277 @@
 {% extends "base.html" %}
-{% block title %}CreditCraze — Find Your Perfect Credit Card{% endblock %}
+{% block title %}Credit Compass | Find the right credit. Fuel your future.{% endblock %}
 
 {% block content %}
-
-<!-- ========================================================
-     HERO
-======================================================== -->
-<section class="hero">
+<section class="hero compass-home">
   <div class="container">
-    <div class="row align-items-center gy-5">
-
-      <div class="col-12 col-lg-6">
-        <div class="hero__eyebrow fade-in">
-          <i class="bi bi-stars"></i> AI-Powered · South Africa
+    <div class="hero-panel">
+      <div class="row align-items-center gy-5 hero-layout">
+        <div class="col-12 col-lg-6">
+          <div class="hero__eyebrow fade-in"><i class="bi bi-compass"></i> Your financial navigation starts here</div>
+          <h1 class="hero__title">Find the right credit.<br><span class="word-gradient">Fuel your future.</span></h1>
+          <p class="hero__desc">
+            Credit Compass helps South Africans compare cards, understand revolving credit, and choose the bank fit that matches their lifestyle, ambition, and earning rhythm.
+          </p>
+          <div class="hero__actions">
+            <a href="{{ url_for('quiz') }}" class="btn-glow"><i class="bi bi-stars"></i> Find My Perfect Match</a>
+            <a href="{{ url_for('home') }}#how-it-works" class="btn-outline-glow"><i class="bi bi-play-circle"></i> See How It Works</a>
+          </div>
+          <div class="hero__proof">
+            <span><i class="bi bi-shield-check"></i> 100% free to use</span>
+            <span><i class="bi bi-activity"></i> No impact on your credit score</span>
+            <span><i class="bi bi-lock"></i> Secure &amp; private</span>
+          </div>
         </div>
-        <h1 class="hero__title">
-          Unlock the power<br>of <span class="word-gradient">Credit</span>
-        </h1>
-        <p class="hero__desc">
-          Compare hundreds of cards, get matched by AI, and learn how to use revolving credit
-          as a tool — not a trap. Made for everyone.
-        </p>
-        <div class="hero__actions">
-          <a href="{{ url_for('credibot') }}" class="btn-glow">
-            <i class="bi bi-stars"></i> Find My Card
-          </a>
-          <a href="{{ url_for('compare') }}" class="btn-outline-glow">
-            <i class="bi bi-bar-chart-steps"></i> Compare Cards
-          </a>
-        </div>
-      </div>
 
-      <div class="col-12 col-lg-6">
-        <div class="hero__card-wrap">
-          <div class="cc-card cc-card--signature cc-card-float" data-tilt aria-hidden="true">
-            <div class="cc-card__chip"></div>
-            <div class="cc-card__network">VISA</div>
-            <div class="cc-card__number">•••• •••• •••• 4242</div>
-            <div class="cc-card__name">CreditCraze Member</div>
-            <div class="cc-card__bank">Powered by AI</div>
+        <div class="col-12 col-lg-6">
+          <div class="compass-visual fade-up">
+            <div class="compass-radar" data-orbit-root>
+              <div class="orbit orbit--major">
+                <span class="orbit-node orbit-node--gold" style="top:11%;left:51%;"></span>
+                <span class="orbit-node" style="top:40%;right:5%;"></span>
+                <span class="orbit-node orbit-node--gold" style="bottom:14%;left:23%;"></span>
+              </div>
+              <div class="orbit orbit--alt">
+                <span class="orbit-node" style="top:18%;right:18%;"></span>
+                <span class="orbit-node orbit-node--gold" style="bottom:16%;right:16%;"></span>
+              </div>
+              <div class="orbit orbit--minor">
+                <span class="orbit-node" style="top:24%;left:12%;"></span>
+                <span class="orbit-node" style="bottom:22%;right:10%;"></span>
+              </div>
+              <div class="compass-needle"></div>
+              <div class="compass-center">
+                <span>Your financial</span>
+                <strong>true north</strong>
+              </div>
+              <div class="compass-labels">
+                <span class="label-travel"><i class="bi bi-airplane"></i> Travel</span>
+                <span class="label-build"><i class="bi bi-graph-up-arrow"></i> Build credit</span>
+                <span class="label-cashback"><i class="bi bi-wallet2"></i> Cashback</span>
+                <span class="label-lifestyle"><i class="bi bi-bag"></i> Lifestyle</span>
+                <span class="label-business"><i class="bi bi-briefcase"></i> Business</span>
+                <span class="label-freedom"><i class="bi bi-rocket-takeoff"></i> Freedom</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- ========================================================
-     STATS BAR
-======================================================== -->
-<div class="stats-bar">
+<section class="section pt-0">
   <div class="container">
-    <div class="row gy-4 text-center">
-      <div class="col-6 col-md-3 stats-bar__item">
-        <div class="stats-bar__number" data-count="50" data-suffix="+">50+</div>
-        <div class="stats-bar__label">Banks &amp; Issuers</div>
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-end gap-4 mb-4">
+      <div>
+        <div class="section-eyebrow">Choose your path</div>
+        <h2 class="section-title mb-0">We get you. We match you.</h2>
       </div>
-      <div class="col-6 col-md-3 stats-bar__item">
-        <div class="stats-bar__number" data-count="200" data-suffix="+">200+</div>
-        <div class="stats-bar__label">Cards Analysed</div>
-      </div>
-      <div class="col-6 col-md-3 stats-bar__item">
-        <div class="stats-bar__number">AI</div>
-        <div class="stats-bar__label">Powered Matching</div>
-      </div>
-      <div class="col-6 col-md-3 stats-bar__item">
-        <div class="stats-bar__number">Free</div>
-        <div class="stats-bar__label">Always &amp; Forever</div>
+      <div class="glass-card" style="padding:1.25rem 1.5rem;max-width:360px;">
+        <p class="mb-2" style="color:var(--text-muted);line-height:1.7;">Answer a few questions and we’ll map your financial identity to the right card strategy.</p>
+        <a href="{{ url_for('quiz') }}" class="btn-outline-glow">Start the Quiz</a>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- ========================================================
-     HOW IT WORKS
-======================================================== -->
-<section class="section">
+    <div class="path-grid stagger-group">
+      {% set path_cards = [
+        {'title':'The Builder','class':'builder','copy':'Building future wealth','meta':'Best for: growth & long-term goals','bg':'linear-gradient(135deg, rgba(11,37,20,0.88), rgba(22,74,47,0.25)), radial-gradient(circle at top, rgba(104,231,161,0.18), transparent 40%)'},
+        {'title':'The Voyager','class':'voyager','copy':'Explore more. Live more.','meta':'Best for: travel & lifestyle perks','bg':'linear-gradient(135deg, rgba(52,31,8,0.9), rgba(120,72,14,0.26)), radial-gradient(circle at top right, rgba(241,195,109,0.18), transparent 40%)'},
+        {'title':'The Operator','class':'operator','copy':'Business is the mission','meta':'Best for: business owners & entrepreneurs','bg':'linear-gradient(135deg, rgba(8,30,57,0.9), rgba(12,77,124,0.26)), radial-gradient(circle at top right, rgba(97,197,255,0.2), transparent 40%)'},
+        {'title':'The Optimizer','class':'optimizer','copy':'Maximise every move','meta':'Best for: rewards & smart spenders','bg':'linear-gradient(135deg, rgba(33,12,56,0.9), rgba(120,32,147,0.24)), radial-gradient(circle at top left, rgba(207,135,255,0.2), transparent 40%)'},
+        {'title':'The Minimalist','class':'minimalist','copy':'Keep it simple, win more','meta':'Best for: low fees & essentials','bg':'linear-gradient(135deg, rgba(31,35,43,0.95), rgba(88,97,112,0.18)), radial-gradient(circle at top, rgba(217,223,233,0.12), transparent 40%)'},
+        {'title':'The Globalist','class':'globalist','copy':'Global citizens only','meta':'Best for: international spend & forex','bg':'linear-gradient(135deg, rgba(25,18,6,0.95), rgba(117,85,22,0.18)), radial-gradient(circle at top right, rgba(241,195,109,0.2), transparent 42%)'}
+      ] %}
+      {% for path in path_cards %}
+      <article class="path-card stagger-item">
+        <div class="path-card__media" style="background: {{ path.bg }};"></div>
+        <div class="path-card__content">
+          <h3 class="path-card__title path-card__title--{{ path.class }}">{{ path.title }}</h3>
+          <p class="path-card__caption">{{ path.copy }}</p>
+          <div class="path-card__meta">{{ path.meta }}</div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section pt-0" id="how-it-works">
   <div class="container">
     <div class="section-header">
       <div class="section-eyebrow">How it works</div>
-      <h2 class="section-title fade-up">Three steps to your <span class="gradient-text">perfect card</span></h2>
-      <p class="section-desc fade-up">No jargon. No hidden agenda. Just clear, AI-powered card matching built around you.</p>
+      <h2 class="section-title fade-up">Smart. Simple. Built for you.</h2>
     </div>
 
-    <div class="row gy-4 stagger-group">
-      <div class="col-12 col-md-4 stagger-item">
-        <div class="step-card">
-          <div class="step-card__number">1</div>
-          <h5 class="step-card__title">Tell us your goals</h5>
-          <p class="step-card__desc">Answer a few quick questions about your spending habits, income, and what matters most to you — travel, cashback, low fees, or rewards.</p>
+    <div class="how-grid">
+      <div class="timeline-card glass-card stagger-group">
+        <div class="timeline-row">
+          <div class="timeline-step stagger-item">
+            <div class="timeline-icon"><i class="bi bi-person-circle"></i></div>
+            <div class="timeline-number">1</div>
+            <h4 class="timeline-title">Tell us about you</h4>
+            <p class="timeline-copy">Share your spending style, goals, and money habits.</p>
+          </div>
+          <div class="timeline-step stagger-item">
+            <div class="timeline-icon"><i class="bi bi-bullseye"></i></div>
+            <div class="timeline-number">2</div>
+            <h4 class="timeline-title">We analyse &amp; match</h4>
+            <p class="timeline-copy">Our engine sorts through fees, rewards, and access requirements.</p>
+          </div>
+          <div class="timeline-step stagger-item">
+            <div class="timeline-icon"><i class="bi bi-credit-card-2-front"></i></div>
+            <div class="timeline-number">3</div>
+            <h4 class="timeline-title">Explore your options</h4>
+            <p class="timeline-copy">See side-by-side benefits, limits, and best-fit explanations.</p>
+          </div>
+          <div class="timeline-step stagger-item">
+            <div class="timeline-icon"><i class="bi bi-check2-circle"></i></div>
+            <div class="timeline-number">4</div>
+            <h4 class="timeline-title">Choose &amp; take control</h4>
+            <p class="timeline-copy">Apply with confidence and use credit strategically.</p>
+          </div>
         </div>
       </div>
-      <div class="col-12 col-md-4 stagger-item">
-        <div class="step-card">
-          <div class="step-card__number">2</div>
-          <h5 class="step-card__title">We match your cards</h5>
-          <p class="step-card__desc">Our AI scans all available cards, weights them against your profile, and returns personalised recommendations with plain-English explanations.</p>
-        </div>
-      </div>
-      <div class="col-12 col-md-4 stagger-item">
-        <div class="step-card">
-          <div class="step-card__number">3</div>
-          <h5 class="step-card__title">Apply with confidence</h5>
-          <p class="step-card__desc">Compare your matches side-by-side, read real breakdowns of fees and rewards, then click through to apply directly with the bank.</p>
-        </div>
-      </div>
+
+      <aside class="revolving-card glass-card fade-up">
+        <div class="section-eyebrow">Why revolving credit?</div>
+        <h3 style="font-size:1.7rem;">Flexibility for ambitious people.</h3>
+        <ul>
+          <li><i class="bi bi-check-circle"></i><span>More flexibility than personal loans for everyday liquidity needs.</span></li>
+          <li><i class="bi bi-check-circle"></i><span>Build your credit score through disciplined utilisation and repayment.</span></li>
+          <li><i class="bi bi-check-circle"></i><span>Access funds when you need them and pay interest only on what you use.</span></li>
+          <li><i class="bi bi-check-circle"></i><span>Unlock rewards, travel value, and digital convenience while you grow.</span></li>
+        </ul>
+      </aside>
     </div>
   </div>
 </section>
 
-<!-- ========================================================
-     FEATURES
-======================================================== -->
-<section class="section" style="background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+<section class="section pt-0">
   <div class="container">
-    <div class="section-header">
-      <div class="section-eyebrow">Platform features</div>
-      <h2 class="section-title fade-up">Smarter tools for <span class="gradient-text">credit confidence</span></h2>
-    </div>
-    <div class="row gy-4 stagger-group">
-      <div class="col-12 col-sm-6 col-lg-3 stagger-item">
-        <div class="feature-card">
-          <div class="feature-card__icon"><i class="bi bi-stars"></i></div>
-          <h6 class="feature-card__title">AI Card Match</h6>
-          <p class="feature-card__desc">Chat with Credibot and get personalised card recommendations based on your real situation.</p>
-        </div>
+    <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 mb-4">
+      <div>
+        <div class="section-eyebrow">Top matches for you</div>
+        <h2 class="section-title mb-0">Recommended for your journey</h2>
       </div>
-      <div class="col-12 col-sm-6 col-lg-3 stagger-item">
-        <div class="feature-card">
-          <div class="feature-card__icon"><i class="bi bi-bar-chart-steps"></i></div>
-          <h6 class="feature-card__title">Side-by-Side Compare</h6>
-          <p class="feature-card__desc">Compare up to 3 cards at once. Interest rates, fees, rewards — all in one clean table.</p>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-lg-3 stagger-item">
-        <div class="feature-card">
-          <div class="feature-card__icon"><i class="bi bi-shield-check"></i></div>
-          <h6 class="feature-card__title">Full Transparency</h6>
-          <p class="feature-card__desc">We surface the small print — monthly fees, income requirements, risks — so there are no surprises.</p>
-        </div>
-      </div>
-      <div class="col-12 col-sm-6 col-lg-3 stagger-item">
-        <div class="feature-card">
-          <div class="feature-card__icon"><i class="bi bi-book-half"></i></div>
-          <h6 class="feature-card__title">Credit Education</h6>
-          <p class="feature-card__desc">Learn how revolving credit works, how interest compounds, and how to build a healthy credit profile.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========================================================
-     FEATURED CARDS
-======================================================== -->
-<section class="section">
-  <div class="container">
-    <div class="section-header">
-      <div class="section-eyebrow">Featured cards</div>
-      <h2 class="section-title fade-up">Popular picks right now</h2>
-      <p class="section-desc fade-up">Hand-picked cards covering every spending style and income bracket.</p>
+      <a href="{{ url_for('cardreviews') }}" class="btn-outline-glow">View All Matches</a>
     </div>
 
     {% if credit_cards %}
-    <div class="row gy-4 stagger-group">
-      {% for card in credit_cards %}
-      <div class="col-12 col-md-6 col-lg-4 stagger-item">
-        <div class="glass-card h-100" style="padding:1.75rem;display:flex;flex-direction:column;gap:1rem;">
-
-          <!-- CSS card visual -->
-          <div style="display:flex;justify-content:center;margin-bottom:0.5rem;">
-            {% set tier_class = 'cc-card--' ~ (card.tier or 'standard')|lower %}
-            <div class="cc-card {{ tier_class }}" style="width:220px;height:138px;padding:1rem;border-radius:12px;" aria-hidden="true">
-              <div class="cc-card__chip"></div>
-              <div class="cc-card__network">{{ card.card_type or 'VISA' }}</div>
-              <div class="cc-card__number" style="font-size:0.65rem;">•••• •••• •••• ••••</div>
-              <div class="cc-card__name" style="font-size:0.6rem;max-width:140px;">{{ card.name }}</div>
-              <div class="cc-card__bank" style="font-size:0.55rem;">{{ card.banks }}</div>
-            </div>
-          </div>
-
-          <div>
-            <div class="d-flex align-items-center gap-2 mb-1">
-              <h5 style="font-weight:700;font-size:1rem;margin:0;">{{ card.name }}</h5>
-              {% if card.tier %}
-              <span class="badge-tier badge-tier--{{ card.tier|lower }}">{{ card.tier }}</span>
-              {% endif %}
-            </div>
-            <p style="font-size:0.8rem;color:var(--text-muted);margin:0;">{{ card.banks }}</p>
-          </div>
-
-          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-            {% if card.interest_rate %}
-            <div>
-              <div style="font-size:0.65rem;color:var(--text-subtle);text-transform:uppercase;letter-spacing:0.06em;">Interest</div>
-              <div style="font-size:0.9rem;font-weight:700;">{{ card.interest_rate }}</div>
-            </div>
-            {% endif %}
-            {% if card.annual_fee is not none %}
-            <div>
-              <div style="font-size:0.65rem;color:var(--text-subtle);text-transform:uppercase;letter-spacing:0.06em;">Annual Fee</div>
-              <div style="font-size:0.9rem;font-weight:700;">R{{ '%.0f'|format(card.annual_fee) }}</div>
-            </div>
-            {% endif %}
-            {% if card.reward_type %}
-            <div>
-              <div style="font-size:0.65rem;color:var(--text-subtle);text-transform:uppercase;letter-spacing:0.06em;">Rewards</div>
-              <div style="font-size:0.9rem;font-weight:700;">{{ card.reward_type }}</div>
-            </div>
-            {% endif %}
-          </div>
-
-          <div style="display:flex;gap:0.5rem;margin-top:auto;">
-            <a href="{{ url_for('card_details', card_id=card.id) }}" class="btn-glow btn-sm-glow flex-fill justify-content-center">
-              View Details
-            </a>
-            <a href="{{ url_for('compare') }}" class="btn-outline-glow" style="padding:0.45rem 0.75rem;border-radius:100px;font-size:0.8rem;">
-              <i class="bi bi-plus"></i>
-            </a>
-          </div>
+    <div class="match-grid stagger-group">
+      {% for card in credit_cards[:5] %}
+      {% set bank_key = (card.banks.split(',')[0].strip().lower() if card.banks else 'bank') %}
+      <article class="match-card stagger-item">
+        <div class="match-card__bank-logo match-card__bank-logo--{{ 'absa' if 'absa' in bank_key else 'nedbank' if 'nedbank' in bank_key else 'investec' if 'investec' in bank_key else 'fnb' if 'fnb' in bank_key else 'fallback' }}">{{ card.banks.split(',')[0][:3] if card.banks else 'CC' }}</div>
+        <div class="match-card__eyebrow">
+          {% if card.reward_type %}<span>{{ card.reward_type }}</span>{% endif %}
+          {% if card.categories %}<span>{{ card.categories.split(',')[0] }}</span>{% endif %}
         </div>
-      </div>
+        <h5>{{ card.name }}</h5>
+        <p>{{ card.rewards_summary or card.benefits or 'A strong all-round card designed to support smarter day-to-day credit decisions.' }}</p>
+        <div class="d-flex justify-content-between align-items-center gap-3 mb-3">
+          <div>
+            <div style="font-size:0.72rem;color:var(--text-subtle);text-transform:uppercase;letter-spacing:0.12em;">Bank</div>
+            <div style="font-weight:700;">{{ card.banks }}</div>
+          </div>
+          {% if card.annual_fee is not none %}
+          <div class="text-end">
+            <div style="font-size:0.72rem;color:var(--text-subtle);text-transform:uppercase;letter-spacing:0.12em;">Annual fee</div>
+            <div style="font-weight:700;">R{{ '%.0f'|format(card.annual_fee) }}</div>
+          </div>
+          {% endif %}
+        </div>
+        <a href="{{ url_for('card_details', card_id=card.id) }}" class="match-card__link">View Details <i class="bi bi-arrow-right"></i></a>
+      </article>
       {% endfor %}
     </div>
-
-    <div class="text-center mt-5">
-      <a href="{{ url_for('cardreviews') }}" class="btn-outline-glow">
-        Browse All Cards <i class="bi bi-arrow-right"></i>
-      </a>
-    </div>
-
     {% else %}
-    <div class="text-center py-5" style="color:var(--text-muted);">
-      <i class="bi bi-credit-card" style="font-size:3rem;opacity:0.2;display:block;margin-bottom:1rem;"></i>
-      <p>Cards are being loaded by our admin team — check back soon!</p>
-    </div>
+    <div class="glass-card" style="padding:2rem;color:var(--text-muted);">Card recommendations will appear here once the database is seeded.</div>
     {% endif %}
-  </div>
-</section>
 
-<!-- ========================================================
-     CREDIBOT TEASER
-======================================================== -->
-<section class="section" style="background:var(--bg-2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
-  <div class="container">
-    <div class="row align-items-center gy-5">
-      <div class="col-12 col-lg-7">
-        <div class="section-eyebrow">Meet your AI advisor</div>
-        <h2 class="section-title fade-up">
-          Say hello to <span class="gradient-text">Credibot</span>
-        </h2>
-        <p class="section-desc fade-up">
-          Credibot is our AI credit card advisor. Ask it anything — best card for travel, lowest monthly fees,
-          which card suits a R15,000/month income — and get instant, personalised answers.
-        </p>
-        <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem;">
-          <a href="{{ url_for('credibot') }}" class="btn-glow">
-            <i class="bi bi-chat-dots"></i> Chat with Credibot
-          </a>
-        </div>
+    <div class="stat-strip">
+      <div class="metric-card fade-up"><div class="metric-card__icon"><i class="bi bi-people"></i></div><div class="metric-card__value" data-count="250" data-suffix="K+">250K+</div><div class="metric-card__label">People navigated smarter</div></div>
+      <div class="metric-card fade-up"><div class="metric-card__icon"><i class="bi bi-compass"></i></div><div class="metric-card__value" data-count="1" data-suffix="M+">1M+</div><div class="metric-card__label">Matches generated</div></div>
+      <div class="metric-card fade-up"><div class="metric-card__icon"><i class="bi bi-coin"></i></div><div class="metric-card__value">R1.2B+</div><div class="metric-card__label">In indicative credit limits unlocked</div></div>
+      <div class="metric-card fade-up"><div class="metric-card__icon"><i class="bi bi-hand-thumbs-up"></i></div><div class="metric-card__value">98%</div><div class="metric-card__label">Users would recommend</div></div>
+      <div class="metric-card fade-up"><div class="metric-card__icon"><i class="bi bi-heart"></i></div><div class="metric-card__value">0%</div><div class="metric-card__label">Always free to use</div></div>
+    </div>
+
+    <div class="launch-cta glass-card fade-up">
+      <div>
+        <h3>Credit isn’t the goal. <span class="gradient-text">Control is.</span></h3>
+        <p>We empower a generation to make better credit decisions, unlock rewards, and build the life they want with clarity.</p>
       </div>
-      <div class="col-12 col-lg-5">
-        <!-- Mini chat preview -->
-        <div class="glass-card" style="padding:1.5rem;">
-          <div style="display:flex;flex-direction:column;gap:1rem;">
-            <div class="chat-msg chat-msg--bot" style="max-width:100%;">
-              <div class="chat-msg__avatar">C</div>
-              <div class="chat-msg__bubble">
-                Hi! I'm Credibot. What kind of credit card are you looking for today?
-              </div>
-            </div>
-            <div class="chat-msg chat-msg--user" style="max-width:100%;align-self:flex-end;flex-direction:row-reverse;">
-              <div class="chat-msg__avatar" style="background:rgba(255,255,255,0.08);border:1px solid var(--border);">
-                <i class="bi bi-person"></i>
-              </div>
-              <div class="chat-msg__bubble">
-                Something with good travel rewards and low annual fee
-              </div>
-            </div>
-            <div class="chat-msg chat-msg--bot" style="max-width:100%;">
-              <div class="chat-msg__avatar">C</div>
-              <div class="chat-msg__bubble">
-                Great! Let me check your options based on travel rewards... <span style="color:var(--accent);">Start a full chat to see your matches →</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <a href="{{ url_for('quiz') }}" class="btn-glow">Start Your Journey <i class="bi bi-arrow-right"></i></a>
     </div>
   </div>
 </section>
 
-<!-- ========================================================
-     LATEST ARTICLES
-======================================================== -->
-{% if blog_posts %}
-<section class="section">
+<section class="section pt-0">
   <div class="container">
     <div class="section-header">
-      <div class="section-eyebrow">Credit education</div>
-      <h2 class="section-title fade-up">Learn how credit <span class="gradient-text">really works</span></h2>
+      <div class="section-eyebrow">Platform features</div>
+      <h2 class="section-title fade-up">Made for millennials, Gen Z, and the next generation of earners.</h2>
+      <p class="section-desc fade-up">Compass AI, clean comparisons, and richer motion make credit education feel less like admin and more like momentum.</p>
+    </div>
+    <div class="row gy-4 stagger-group">
+      <div class="col-12 col-md-6 col-xl-3 stagger-item">
+        <div class="feature-card h-100">
+          <div class="feature-card__icon"><i class="bi bi-stars"></i></div>
+          <h6 class="feature-card__title">Compass AI</h6>
+          <p class="feature-card__desc">Ask intelligent questions about travel perks, fees, affordability, and responsible revolving credit use.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-xl-3 stagger-item">
+        <div class="feature-card h-100">
+          <div class="feature-card__icon"><i class="bi bi-columns-gap"></i></div>
+          <h6 class="feature-card__title">Side-by-side compare</h6>
+          <p class="feature-card__desc">Stack cards against each other across fees, rewards, access, and fit in one clean decision view.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-xl-3 stagger-item">
+        <div class="feature-card h-100">
+          <div class="feature-card__icon"><i class="bi bi-shield-lock"></i></div>
+          <h6 class="feature-card__title">Privacy-conscious tracking</h6>
+          <p class="feature-card__desc">Consent-aware analytics and transparent cookie controls keep optimisation aligned with trust.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-xl-3 stagger-item">
+        <div class="feature-card h-100">
+          <div class="feature-card__icon"><i class="bi bi-book"></i></div>
+          <h6 class="feature-card__title">Revolving credit literacy</h6>
+          <p class="feature-card__desc">Learn how to use interest-free days, utilisation, and payment timing to stay in control.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if blog_posts %}
+<section class="section pt-0">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-eyebrow">Learn</div>
+      <h2 class="section-title fade-up">Fresh insight for smarter borrowing.</h2>
     </div>
     <div class="row gy-4 stagger-group">
       {% for post in blog_posts %}
       <div class="col-12 col-md-6 col-lg-4 stagger-item">
-        <div class="post-card">
-          <div class="post-card__image"><i class="bi bi-file-text"></i></div>
+        <div class="post-card h-100">
+          <div class="post-card__image"><i class="bi bi-journal-richtext"></i></div>
           <div class="post-card__body">
             <div class="post-card__category">{{ post.category }}</div>
             <h5 class="post-card__title">{{ post.title }}</h5>
-            <p class="post-card__intro">{{ post.introduction or post.subtitle or '' }}</p>
+            <p class="post-card__intro">{{ post.introduction or post.subtitle or 'Practical guidance on credit cards, rewards, and building healthier financial habits.' }}</p>
           </div>
           <div class="post-card__footer">
-            <a href="{{ url_for('article', post_id=post.id) }}" class="btn-sm-glow">
-              Read More <i class="bi bi-arrow-right"></i>
-            </a>
+            <a href="{{ url_for('article', post_id=post.id) }}" class="btn-sm-glow">Read More <i class="bi bi-arrow-right"></i></a>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
-    <div class="text-center mt-5">
-      <a href="{{ url_for('articles') }}" class="btn-outline-glow">All Articles <i class="bi bi-arrow-right"></i></a>
-    </div>
   </div>
 </section>
 {% endif %}
-
 {% endblock %}
