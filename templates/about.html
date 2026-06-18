@@ -1,75 +1,50 @@
 {% extends "base.html" %}
-{% block title %}About CreditCraze{% endblock %}
+{% block title %}About Credit Compass{% endblock %}
 {% block content %}
-
 <div class="page-banner">
   <div class="container">
-    <h1 class="page-banner__title fade-up">About <span class="text-gradient">CreditCraze</span></h1>
+    <h1 class="page-banner__title fade-up">About <span class="text-gradient">Credit Compass</span></h1>
+    <div class="page-banner__breadcrumb">
+      <a href="{{ url_for('home') }}">Home</a>
+      <span class="sep"><i class="bi bi-chevron-right"></i></span>
+      <span>About</span>
+    </div>
   </div>
 </div>
 
-<section class="section">
+<section class="section-sm">
   <div class="container">
-    <div class="row gy-5 align-items-center">
-      <div class="col-12 col-lg-6">
-        <div class="section-eyebrow">Our mission</div>
-        <h2 class="section-title">Smart credit. <span class="gradient-text">Smarter people.</span></h2>
-        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem;">
-          We teach people to use revolving credit on their own terms — not be terrified of it.
-          With AI-powered transparency, clearer small-print, and practical comparison tools, we show
-          how responsible card use can be a financial advantage, not a trap.
-        </p>
-        <p style="color:var(--text-muted);line-height:1.8;margin-bottom:2rem;">
-          We explain interest, rewards, fees and real-world impact in plain language so users at
-          every income level can choose confidently.
-        </p>
-        <ul style="display:flex;flex-direction:column;gap:0.75rem;">
-          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.9rem;color:var(--text-muted);">
-            <i class="bi bi-check-circle-fill" style="color:var(--success);margin-top:2px;flex-shrink:0;"></i>
-            AI-powered summaries that make the small print obvious
-          </li>
-          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.9rem;color:var(--text-muted);">
-            <i class="bi bi-check-circle-fill" style="color:var(--success);margin-top:2px;flex-shrink:0;"></i>
-            Clear comparisons to help you choose and control interest
-          </li>
-          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.9rem;color:var(--text-muted);">
-            <i class="bi bi-check-circle-fill" style="color:var(--success);margin-top:2px;flex-shrink:0;"></i>
-            Practical education so cards beat loans for everyday users
-          </li>
-          <li style="display:flex;align-items:flex-start;gap:0.75rem;font-size:0.9rem;color:var(--text-muted);">
-            <i class="bi bi-check-circle-fill" style="color:var(--success);margin-top:2px;flex-shrink:0;"></i>
-            Real transparency: we highlight fees, limits and risks
-          </li>
-        </ul>
+    <div class="row gy-4 align-items-stretch">
+      <div class="col-12 col-lg-7">
+        <div class="story-card h-100">
+          <div class="section-eyebrow">Our story</div>
+          <h2 class="section-title" style="font-size:clamp(2rem,4vw,3.1rem);">Navigate credit with confidence.</h2>
+          <p>Credit Compass exists to make credit card decisions feel clear, modern, and empowering. We translate fees, rewards, income thresholds, and small print into practical guidance for real people building careers, households, and momentum.</p>
+          <p>Our brand is built around navigation: knowing where you are, where you want to go, and which product helps you get there without drama. We believe revolving credit can be a strategic tool when it is used deliberately and understood properly.</p>
+          <p>That means simpler comparison tools, useful AI guidance, strong disclosure, and an experience that feels premium without becoming intimidating.</p>
+        </div>
       </div>
-      <div class="col-12 col-lg-6">
-        <div class="row gy-3">
-          <div class="col-6">
-            <div class="feature-card">
+      <div class="col-12 col-lg-5">
+        <div class="row gy-4">
+          <div class="col-12 col-sm-6 col-lg-12">
+            <div class="feature-card h-100">
               <div class="feature-card__icon"><i class="bi bi-stars"></i></div>
-              <h6 class="feature-card__title">AI-Powered</h6>
-              <p class="feature-card__desc">Card matching using real data, not just generic advice.</p>
+              <h6 class="feature-card__title">Guided matching</h6>
+              <p class="feature-card__desc">Compass AI and structured comparisons help users narrow choices quickly and responsibly.</p>
             </div>
           </div>
-          <div class="col-6">
-            <div class="feature-card">
+          <div class="col-12 col-sm-6 col-lg-12">
+            <div class="feature-card h-100">
               <div class="feature-card__icon"><i class="bi bi-shield-check"></i></div>
-              <h6 class="feature-card__title">Independent</h6>
-              <p class="feature-card__desc">No bank owns us. We review cards on merit only.</p>
+              <h6 class="feature-card__title">Transparent by default</h6>
+              <p class="feature-card__desc">We prioritise fees, trade-offs, privacy, and plain language over hype.</p>
             </div>
           </div>
-          <div class="col-6">
-            <div class="feature-card">
-              <div class="feature-card__icon"><i class="bi bi-people"></i></div>
-              <h6 class="feature-card__title">For Everyone</h6>
-              <p class="feature-card__desc">From students to executives — cards for every income.</p>
-            </div>
-          </div>
-          <div class="col-6">
-            <div class="feature-card">
-              <div class="feature-card__icon"><i class="bi bi-lightbulb"></i></div>
-              <h6 class="feature-card__title">Educational</h6>
-              <p class="feature-card__desc">We teach credit literacy, not just sell products.</p>
+          <div class="col-12 col-sm-6 col-lg-12">
+            <div class="feature-card h-100">
+              <div class="feature-card__icon"><i class="bi bi-rocket-takeoff"></i></div>
+              <h6 class="feature-card__title">Built for growth</h6>
+              <p class="feature-card__desc">The experience is designed for younger professionals who want financial tools that match their pace.</p>
             </div>
           </div>
         </div>
@@ -77,5 +52,4 @@
     </div>
   </div>
 </section>
-
 {% endblock %}

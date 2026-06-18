@@ -1,0 +1,20 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#07111F"/>
+  <circle cx="786" cy="313" r="172" stroke="#CDA75A" stroke-width="4" opacity="0.35"/>
+  <circle cx="786" cy="313" r="130" stroke="#55E38E" stroke-width="2" opacity="0.35"/>
+  <circle cx="786" cy="313" r="210" stroke="#CDA75A" stroke-width="2" opacity="0.15" stroke-dasharray="8 10"/>
+  <path d="M786 138L813.52 285.48L961 313L813.52 340.52L786 488L758.48 340.52L611 313L758.48 285.48L786 138Z" fill="url(#gold)"/>
+  <path d="M786 190L801.48 297.52L909 313L801.48 328.48L786 436L770.52 328.48L663 313L770.52 297.52L786 190Z" stroke="#F8F6EF" stroke-width="4"/>
+  <text x="86" y="236" fill="#F6F4EE" font-size="74" font-family="Inter, Arial, sans-serif" font-weight="800">CREDIT COMPASS</text>
+  <text x="86" y="296" fill="#55E38E" font-size="28" font-family="Inter, Arial, sans-serif" font-weight="600">Navigate. Choose. Thrive.</text>
+  <text x="86" y="390" fill="#D7DEE8" font-size="52" font-family="Inter, Arial, sans-serif" font-weight="700">Find the right credit.</text>
+  <text x="86" y="452" fill="#D7DEE8" font-size="52" font-family="Inter, Arial, sans-serif" font-weight="700">Fuel your future.</text>
+  <text x="86" y="525" fill="#9CB0C7" font-size="25" font-family="Inter, Arial, sans-serif">South African credit card guidance, comparison, and AI-powered matching.</text>
+  <defs>
+    <linearGradient id="gold" x1="615" y1="138" x2="957" y2="488" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4E2A5"/>
+      <stop offset="0.5" stop-color="#CDA75A"/>
+      <stop offset="1" stop-color="#8C6731"/>
+    </linearGradient>
+  </defs>
+</svg>

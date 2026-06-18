@@ -1,0 +1,16 @@
+<svg width="276" height="64" viewBox="0 0 276 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="276" height="64" rx="16" fill="#08111D"/>
+  <circle cx="32" cy="32" r="20" stroke="#CDA75A" stroke-width="1.5" opacity="0.45"/>
+  <circle cx="32" cy="32" r="14" stroke="#55E38E" stroke-width="1" opacity="0.45"/>
+  <path d="M32 10L35.2 28.8L54 32L35.2 35.2L32 54L28.8 35.2L10 32L28.8 28.8L32 10Z" fill="url(#gold)"/>
+  <path d="M32 17L33.8 30.2L47 32L33.8 33.8L32 47L30.2 33.8L17 32L30.2 30.2L32 17Z" stroke="#E9F8EE" stroke-width="1.1" opacity="0.9"/>
+  <text x="63" y="28" fill="#F6F4EE" font-size="23" font-family="Inter, Arial, sans-serif" font-weight="700" letter-spacing="1.5">CREDIT COMPASS</text>
+  <text x="63" y="46" fill="#9CB0C7" font-size="12" font-family="Inter, Arial, sans-serif" letter-spacing="0.8">Navigate. Choose. Thrive.</text>
+  <defs>
+    <linearGradient id="gold" x1="11" y1="10" x2="53" y2="54" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4E2A5"/>
+      <stop offset="0.5" stop-color="#CDA75A"/>
+      <stop offset="1" stop-color="#8C6731"/>
+    </linearGradient>
+  </defs>
+</svg>
